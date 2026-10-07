@@ -148,7 +148,7 @@ const Contacts = () => {
 
                 <div className="grid gap-2">
                   <Label htmlFor="object" className="mono-cap text-muted-foreground">Объект</Label>
-                  <Input id="object" placeholder="Например: ЖК, 17 этажей, монолит, стадия отделки" className={inputCls("object")} {...field("object")} />
+                  <Input id="object" placeholder="Например: технологическая эстакада, монтаж трубопроводов" className={inputCls("object")} {...field("object")} />
                   {errors.object && <span className="text-sm text-destructive">{errors.object}</span>}
                 </div>
 

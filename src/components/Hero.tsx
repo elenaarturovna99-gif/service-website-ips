@@ -1,5 +1,5 @@
 const PHOTO =
-  "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/484e01b5-6fd1-4102-b61c-a7d4babb1b4d.jpg";
+  "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/8907bd9f-0b78-4884-879f-f194f5eb319c.jpg";
 
 const Hero = () => {
   return (
@@ -25,8 +25,8 @@ const Hero = () => {
           className="mx-auto mt-8 max-w-[620px] leading-[1.45] text-hero-muted md:mt-11"
           style={{ fontSize: "clamp(16px, 1.6vw, var(--hero-size-body))" }}
         >
-          Разработка и восстановление исполнительной документации, аудит, контроль качества и
-          строительный контроль.
+          Исполнительная документация, аудит, контроль качества и строительный контроль на
+          промышленных объектах: газохимия, нефтехимия, энергетика, заводы и сети.
         </p>
       </div>
 
@@ -41,7 +41,7 @@ const Hero = () => {
       </a>
 
       <div className="mono-cap absolute bottom-[30px] left-5 z-[2] text-hero-text md:left-9">
-        Строительный контроль на каждом этапе
+        Промышленное строительство · ОПО · линейные объекты
       </div>
     </section>
   );
