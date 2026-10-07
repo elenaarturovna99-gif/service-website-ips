@@ -1,0 +1,9 @@
+CREATE TABLE t_p50541790_service_website_ips.leads (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  object_desc TEXT NOT NULL,
+  service VARCHAR(300) NOT NULL,
+  email_sent BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

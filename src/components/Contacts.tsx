@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { services } from "@/components/Services";
 import { useReveal } from "@/hooks/use-reveal";
 
+const LEAD_URL = "https://functions.poehali.dev/007dbce2-f142-404b-9a7a-7d2b0f2f3501";
+
 type Errors = Partial<Record<"name" | "phone" | "object" | "service", string>>;
 
 const formatPhone = (raw: string) => {
@@ -28,6 +30,7 @@ const Contacts = () => {
   const [form, setForm] = useState({ name: "", phone: "", object: "", service: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const onPick = (e: Event) => {
@@ -48,13 +51,26 @@ const Contacts = () => {
     return e;
   };
 
-  const submit = (ev: React.FormEvent) => {
+  const submit = async (ev: React.FormEvent) => {
     ev.preventDefault();
     const e = validate();
     setErrors(e);
-    if (Object.keys(e).length) return;
-    setSent(true);
-    toast.success("Заявка принята", { description: "Свяжемся с вами в течение рабочего дня." });
+    if (Object.keys(e).length || loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch(LEAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setSent(true);
+      toast.success("Заявка принята", { description: "Свяжемся с вами в течение рабочего дня." });
+    } catch {
+      toast.error("Не удалось отправить заявку", { description: "Попробуйте ещё раз или позвоните нам: +7 (904) 941-36-69" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const field = (k: keyof typeof form) => ({
@@ -178,10 +194,11 @@ const Contacts = () => {
 
                 <button
                   type="submit"
-                  className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-[6px] bg-foreground text-[1.05rem] text-background transition-opacity hover:opacity-85"
+                  disabled={loading}
+                  className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-[6px] bg-foreground text-[1.05rem] text-background transition-opacity hover:opacity-85 disabled:opacity-60"
                 >
-                  Отправить заявку
-                  <Icon name="ArrowRight" size={18} />
+                  {loading ? "Отправляем…" : "Отправить заявку"}
+                  <Icon name={loading ? "Loader2" : "ArrowRight"} size={18} className={loading ? "animate-spin" : ""} />
                 </button>
                 <p className="text-[0.8rem] leading-relaxed text-muted-foreground">
                   Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
