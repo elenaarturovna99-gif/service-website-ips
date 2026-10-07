@@ -87,8 +87,8 @@ const Contacts = () => {
 
           <ul className="mt-12 space-y-6">
             {[
-              { icon: "Phone", label: "Телефон", value: "+7 (900) 000-00-00", href: "tel:+79000000000" },
-              { icon: "Mail", label: "Почта", value: "info@id-control.ru", href: "mailto:info@id-control.ru" },
+              { icon: "Phone", label: "Телефон", value: "+7 (904) 941-36-69", href: "tel:+79049413669" },
+              { icon: "Mail", label: "Почта", value: "heavyprom.ru@yandex.ru", href: "mailto:heavyprom.ru@yandex.ru" },
               { icon: "Clock", label: "Режим работы", value: "Пн–Пт, 9:00–19:00" },
             ].map((c) => (
               <li key={c.label} className="flex items-start gap-4">
