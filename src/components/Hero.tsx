@@ -1,5 +1,5 @@
 const PHOTO =
-  "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/8907bd9f-0b78-4884-879f-f194f5eb319c.jpg";
+  "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/15afb911-c961-46c8-8ed4-c503078ca6c7.jpg";
 
 const Hero = () => {
   return (
