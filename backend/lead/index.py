@@ -71,19 +71,27 @@ def handler(event: dict, context) -> dict:
     sent = False
     try:
         sent = send_mail(name, phone, obj, service)
+        print(f"mail sent: {sent}")
     except Exception as e:
         print(f"mail error: {e}")
 
-    schema = os.environ.get("MAIN_DB_SCHEMA", "public")
-    conn = psycopg2.connect(os.environ["DATABASE_URL"])
-    cur = conn.cursor()
-    cur.execute(
-        f"INSERT INTO {schema}.leads (name, phone, object_desc, service, email_sent) "
-        f"VALUES ('{esc(name)}', '{esc(phone)}', '{esc(obj)}', '{esc(service)}', {'TRUE' if sent else 'FALSE'}) RETURNING id"
-    )
-    lead_id = cur.fetchone()[0]
-    conn.commit()
-    cur.close()
-    conn.close()
+    lead_id = None
+    try:
+        schema = os.environ.get("MAIN_DB_SCHEMA", "public")
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+        cur.execute(
+            f"INSERT INTO {schema}.leads (name, phone, object_desc, service, email_sent) "
+            f"VALUES ('{esc(name)}', '{esc(phone)}', '{esc(obj)}', '{esc(service)}', {'TRUE' if sent else 'FALSE'}) RETURNING id"
+        )
+        lead_id = cur.fetchone()[0]
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"db error: {e}")
+
+    if not sent and lead_id is None:
+        return resp(500, {"error": "Не удалось отправить заявку"})
 
     return resp(200, {"ok": True, "id": lead_id, "email_sent": sent})
