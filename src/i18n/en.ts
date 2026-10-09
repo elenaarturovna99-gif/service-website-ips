@@ -9,6 +9,7 @@ const en: Dict = {
     caption: "Documentation for heavy industry",
     slogan: "As-built documentation and construction supervision at every stage",
     legal: "Sole proprietor E. A. Karimova",
+    privacy: "Privacy policy",
   },
   nav: {
     services: "Services",
@@ -250,13 +251,17 @@ const en: Dict = {
       serviceOther: "Full package / not sure yet",
       submit: "Send request",
       sending: "Sending…",
-      consent: "By clicking the button, you consent to the processing of your personal data.",
+      consentPrefix: "I give my",
+      consentLink: "consent to personal data processing",
+      consentMiddle: "and accept the",
+      policyLink: "privacy policy",
     },
     errors: {
       name: "Please enter your name",
       phone: "Please enter the full number",
       object: "Describe the facility in a few words",
       service: "Please choose a service",
+      consent: "Your consent is required",
     },
     toast: {
       successTitle: "Request received",

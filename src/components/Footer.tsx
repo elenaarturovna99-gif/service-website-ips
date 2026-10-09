@@ -29,7 +29,10 @@ const Footer = () => {
             <a key={l.href} href={l.href} className="hover:text-hero-text">{l.label}</a>
           ))}
         </nav>
-        <div className="mono-cap text-hero-muted">© {new Date().getFullYear()} {t.brand.name}</div>
+        <div className="mono-cap flex flex-col gap-2 text-hero-muted md:items-end">
+          <a href="/privacy" className="hover:text-hero-text">{t.brand.privacy}</a>
+          <span>© {new Date().getFullYear()} {t.brand.name}</span>
+        </div>
       </div>
     </footer>
   );

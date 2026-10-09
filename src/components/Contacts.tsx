@@ -3,12 +3,13 @@ import { toast } from "sonner";
 import Icon from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useReveal } from "@/hooks/use-reveal";
 import { useLang } from "@/i18n/LanguageContext";
 
 const LEAD_URL = "https://functions.poehali.dev/007dbce2-f142-404b-9a7a-7d2b0f2f3501";
 
-type Errors = Partial<Record<"name" | "phone" | "object" | "service", string>>;
+type Errors = Partial<Record<"name" | "phone" | "object" | "service" | "consent", string>>;
 
 const formatPhone = (raw: string) => {
   let d = raw.replace(/\D/g, "");
@@ -33,6 +34,7 @@ const Contacts = () => {
   const [form, setForm] = useState({ name: "", phone: "", object: "", service: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const Contacts = () => {
     if (form.phone.replace(/\D/g, "").length !== 11) e.phone = c.errors.phone;
     if (form.object.trim().length < 3) e.object = c.errors.object;
     if (!form.service) e.service = c.errors.service;
+    if (!agree) e.consent = c.errors.consent;
     return e;
   };
 
@@ -144,6 +147,7 @@ const Contacts = () => {
                   onClick={() => {
                     setSent(false);
                     setForm({ name: "", phone: "", object: "", service: "" });
+                    setAgree(false);
                   }}
                   className="mono-cap mt-8 text-muted-foreground underline-offset-4 hover:underline"
                 >
@@ -195,6 +199,30 @@ const Contacts = () => {
                   {errors.service && <span className="text-sm text-destructive">{errors.service}</span>}
                 </div>
 
+                <div className="grid gap-2">
+                  <label className="flex cursor-pointer items-start gap-3 text-[0.85rem] leading-relaxed text-muted-foreground">
+                    <Checkbox
+                      checked={agree}
+                      onCheckedChange={(v) => {
+                        setAgree(v === true);
+                        setErrors((er) => ({ ...er, consent: undefined }));
+                      }}
+                      className={`mt-0.5 ${errors.consent ? "border-destructive" : ""}`}
+                    />
+                    <span>
+                      {c.form.consentPrefix}{" "}
+                      <a href="/privacy#consent" target="_blank" rel="noopener" className="text-foreground underline underline-offset-4">
+                        {c.form.consentLink}
+                      </a>{" "}
+                      {c.form.consentMiddle}{" "}
+                      <a href="/privacy" target="_blank" rel="noopener" className="text-foreground underline underline-offset-4">
+                        {c.form.policyLink}
+                      </a>
+                    </span>
+                  </label>
+                  {errors.consent && <span className="text-sm text-destructive">{errors.consent}</span>}
+                </div>
+
                 <button
                   type="submit"
                   disabled={loading}
@@ -203,9 +231,6 @@ const Contacts = () => {
                   {loading ? c.form.sending : c.form.submit}
                   <Icon name={loading ? "Loader2" : "ArrowRight"} size={18} className={loading ? "animate-spin" : ""} />
                 </button>
-                <p className="text-[0.8rem] leading-relaxed text-muted-foreground">
-                  {c.form.consent}
-                </p>
               </form>
             )}
           </div>
