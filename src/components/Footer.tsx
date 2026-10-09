@@ -14,7 +14,7 @@ const Footer = () => {
       <div className="mx-auto flex max-w-7xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div>
           <a href="#top" className="flex items-center gap-3">
-            <img src="/favicon.svg" alt="" className="h-9 w-9 shrink-0 rounded-[6px]" />
+            <img src="/favicon.svg?v=2" alt="" className="h-9 w-9 shrink-0 rounded-[6px]" />
             <span className="text-[1.3rem] font-medium tracking-[-0.02em]">{t.brand.name}</span>
           </a>
           <div className="mono-cap mt-4 text-hero-muted">{t.brand.slogan}</div>

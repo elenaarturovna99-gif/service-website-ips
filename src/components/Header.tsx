@@ -64,7 +64,7 @@ const Header = () => {
     >
       <div className="flex items-center justify-between px-5 py-3 md:pl-12 md:pr-10 md:pt-4 md:pb-3">
         <a href="#top" className="flex items-center gap-3">
-          <img src="/favicon.svg" alt="" className="h-8 w-8 shrink-0 rounded-[6px] md:h-9 md:w-9" />
+          <img src="/favicon.svg?v=2" alt="" className="h-8 w-8 shrink-0 rounded-[6px] md:h-9 md:w-9" />
           <span className="flex flex-col">
             <span className="text-[1.2rem] font-medium leading-none tracking-[-0.02em] md:text-[1.45rem]">
               {t.brand.name}
