@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
@@ -7,10 +6,7 @@ import { useLang } from "@/i18n/LanguageContext";
 const Experience = () => {
   const ref = useReveal<HTMLElement>();
   const { t } = useLang();
-  const { types, objects, permits } = t.experience;
-  const [tab, setTab] = useState("all");
-  const list = tab === "all" ? objects : objects.filter((o) => o.typeId === tab);
-  const typeLabel = (id: string) => types.find((x) => x.id === id)?.label ?? "";
+  const { projects, permits } = t.experience;
 
   return (
     <section id="experience" ref={ref} className="bg-hero-fog px-5 py-24 md:px-12 md:py-32">
@@ -22,39 +18,54 @@ const Experience = () => {
           lead={t.experience.lead}
         />
 
-        <div className="reveal mb-8 flex flex-wrap gap-2">
-          {types.map((ty) => (
-            <button
-              key={ty.id}
-              onClick={() => setTab(ty.id)}
-              className={`rounded-[6px] border px-4 py-2 text-[0.95rem] transition-colors ${
-                tab === ty.id
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border bg-card text-foreground hover:border-foreground/50"
-              }`}
-            >
-              {ty.label}
-            </button>
-          ))}
-        </div>
-
         <div className="grid gap-12 lg:grid-cols-12">
-          <ul className="reveal overflow-hidden rounded-[6px] border border-border bg-card lg:col-span-8">
-            {list.map((o) => (
+          <ol className="relative lg:col-span-8">
+            <div className="absolute bottom-2 left-[7px] top-2 w-px bg-border md:left-[111px]" />
+            {projects.map((p, i) => (
               <li
-                key={o.title}
-                className="grid animate-fade-in grid-cols-12 items-center gap-4 border-b border-border px-6 py-5 transition-colors last:border-b-0 hover:bg-muted md:px-8"
+                key={`${p.year}-${p.title}-${i}`}
+                className="reveal relative grid gap-4 pb-10 pl-8 last:pb-0 md:grid-cols-[96px_1fr] md:gap-8 md:pl-0"
+                style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <div className="col-span-12 md:col-span-7">
-                  <div className="mono-cap text-muted-foreground">{typeLabel(o.typeId)}</div>
-                  <div className="mt-1.5 text-[1.1rem] tracking-[-0.02em]">{o.title}</div>
-                  <div className="mt-1 text-[0.9rem] text-muted-foreground">{o.task}</div>
+                <div className="md:pt-6 md:text-right">
+                  <div className="text-[1.75rem] font-light leading-none tight text-foreground">{p.year}</div>
                 </div>
-                <div className="col-span-6 text-[1.05rem] md:col-span-3 md:text-right">{o.area}</div>
-                <div className="mono-cap col-span-6 text-right text-muted-foreground md:col-span-2">{o.year}</div>
+                <span className="absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-[3px] border-hero-fog bg-primary md:left-[104px] md:top-7" />
+
+                <div className="rounded-[6px] border border-border bg-card p-6 transition-colors hover:border-foreground/30 md:ml-6 md:p-8">
+                  <div className="mono-cap flex items-center gap-2 text-muted-foreground">
+                    <Icon name="MapPin" size={14} />
+                    {p.place}
+                  </div>
+                  <h3 className="mt-3 text-[1.4rem] leading-tight tracking-[-0.03em] md:text-[1.6rem]">{p.title}</h3>
+                  <p className="mt-2 text-[0.98rem] text-muted-foreground">{p.task}</p>
+
+                  {p.facts.length > 0 && (
+                    <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-[6px] border border-border bg-border">
+                      {p.facts.map((f) => (
+                        <div key={f.label} className="bg-muted/60 p-4">
+                          <div className="text-[1.15rem] leading-tight tracking-[-0.02em] md:text-[1.4rem]">{f.value}</div>
+                          <div className="mt-1 text-[0.8rem] leading-snug text-muted-foreground">{f.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <ul className="mt-6 flex flex-wrap gap-2">
+                    {p.works.map((w) => (
+                      <li
+                        key={w}
+                        className="flex items-center gap-2 rounded-[6px] border border-border px-3 py-1.5 text-[0.9rem]"
+                      >
+                        <Icon name="Check" size={14} className="text-accent" />
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </li>
             ))}
-          </ul>
+          </ol>
 
           <aside className="reveal lg:col-span-4">
             <div className="rounded-[6px] border border-border bg-card p-7">
@@ -70,9 +81,7 @@ const Experience = () => {
             </div>
             <div className="mt-4 rounded-[6px] bg-primary p-7 text-primary-foreground">
               <div className="mono-cap text-primary-foreground/70">{t.experience.normsLabel}</div>
-              <p className="mt-4 text-[1.05rem] leading-relaxed">
-                {t.experience.norms}
-              </p>
+              <p className="mt-4 text-[1.05rem] leading-relaxed">{t.experience.norms}</p>
             </div>
           </aside>
         </div>
