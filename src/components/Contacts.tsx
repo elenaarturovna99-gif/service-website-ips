@@ -3,8 +3,8 @@ import { toast } from "sonner";
 import Icon from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { services } from "@/components/Services";
 import { useReveal } from "@/hooks/use-reveal";
+import { useLang } from "@/i18n/LanguageContext";
 
 const LEAD_URL = "https://functions.poehali.dev/007dbce2-f142-404b-9a7a-7d2b0f2f3501";
 
@@ -27,6 +27,9 @@ const formatPhone = (raw: string) => {
 
 const Contacts = () => {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLang();
+  const c = t.contacts;
+  const services = t.services.items;
   const [form, setForm] = useState({ name: "", phone: "", object: "", service: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
@@ -44,10 +47,10 @@ const Contacts = () => {
 
   const validate = () => {
     const e: Errors = {};
-    if (form.name.trim().length < 2) e.name = "Укажите имя";
-    if (form.phone.replace(/\D/g, "").length !== 11) e.phone = "Введите номер полностью";
-    if (form.object.trim().length < 3) e.object = "Опишите объект в паре слов";
-    if (!form.service) e.service = "Выберите услугу";
+    if (form.name.trim().length < 2) e.name = c.errors.name;
+    if (form.phone.replace(/\D/g, "").length !== 11) e.phone = c.errors.phone;
+    if (form.object.trim().length < 3) e.object = c.errors.object;
+    if (!form.service) e.service = c.errors.service;
     return e;
   };
 
@@ -65,9 +68,9 @@ const Contacts = () => {
       });
       if (!res.ok) throw new Error();
       setSent(true);
-      toast.success("Заявка принята", { description: "Свяжемся с вами в течение рабочего дня." });
+      toast.success(c.toast.successTitle, { description: c.toast.successText });
     } catch {
-      toast.error("Не удалось отправить заявку", { description: "Попробуйте ещё раз или позвоните нам: +7 (904) 941-36-69" });
+      toast.error(c.toast.errorTitle, { description: c.toast.errorText });
     } finally {
       setLoading(false);
     }
@@ -92,33 +95,33 @@ const Contacts = () => {
           <div className="mono-cap flex items-center gap-3 text-muted-foreground">
             <span className="text-foreground">06</span>
             <span className="h-px w-8 bg-border" />
-            Контакты
+            {c.label}
           </div>
           <h2 className="mt-6 text-[2.25rem] font-normal leading-[1.05] tight md:text-[3.5rem]">
-            Обсудим ваш объект
+            {c.title}
           </h2>
           <p className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-muted-foreground">
-            Оставьте заявку — перезвоним, зададим пару вопросов и предложим решение. Первичная консультация бесплатна.
+            {c.lead}
           </p>
 
           <ul className="mt-12 space-y-6">
             {[
-              { icon: "Phone", label: "Телефон", value: "+7 (904) 941-36-69", href: "tel:+79049413669" },
-              { icon: "Mail", label: "Почта", value: "heavyprom.ru@yandex.ru", href: "mailto:heavyprom.ru@yandex.ru" },
-              { icon: "Clock", label: "Режим работы", value: "Пн–Пт, 9:00–19:00" },
-            ].map((c) => (
-              <li key={c.label} className="flex items-start gap-4">
+              { icon: "Phone", label: c.phoneLabel, value: "+7 (904) 941-36-69", href: "tel:+79049413669" },
+              { icon: "Mail", label: c.emailLabel, value: "heavyprom.ru@yandex.ru", href: "mailto:heavyprom.ru@yandex.ru" },
+              { icon: "Clock", label: c.hoursLabel, value: c.hours },
+            ].map((item) => (
+              <li key={item.label} className="flex items-start gap-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-border bg-card">
-                  <Icon name={c.icon} size={18} className="text-primary" />
+                  <Icon name={item.icon} size={18} className="text-primary" />
                 </div>
                 <div>
-                  <div className="mono-cap text-muted-foreground">{c.label}</div>
-                  {c.href ? (
-                    <a href={c.href} className="mt-1 block text-[1.15rem] tracking-[-0.02em] hover:text-accent">
-                      {c.value}
+                  <div className="mono-cap text-muted-foreground">{item.label}</div>
+                  {item.href ? (
+                    <a href={item.href} className="mt-1 block text-[1.15rem] tracking-[-0.02em] hover:text-accent">
+                      {item.value}
                     </a>
                   ) : (
-                    <div className="mt-1 text-[1.15rem] tracking-[-0.02em]">{c.value}</div>
+                    <div className="mt-1 text-[1.15rem] tracking-[-0.02em]">{item.value}</div>
                   )}
                 </div>
               </li>
@@ -133,9 +136,9 @@ const Contacts = () => {
                 <div className="flex h-14 w-14 items-center justify-center rounded-full border border-border text-primary">
                   <Icon name="Check" size={26} />
                 </div>
-                <h3 className="mt-6 text-[1.75rem] font-normal tight">Спасибо, {form.name.split(" ")[0]}!</h3>
+                <h3 className="mt-6 text-[1.75rem] font-normal tight">{c.success.thanks}, {form.name.split(" ")[0]}!</h3>
                 <p className="mt-3 max-w-sm text-muted-foreground">
-                  Заявка принята. Перезвоним на {form.phone} в течение рабочего дня.
+                  {c.success.textBefore} {form.phone} {c.success.textAfter}
                 </p>
                 <button
                   onClick={() => {
@@ -144,32 +147,32 @@ const Contacts = () => {
                   }}
                   className="mono-cap mt-8 text-muted-foreground underline-offset-4 hover:underline"
                 >
-                  Отправить ещё одну
+                  {c.success.again}
                 </button>
               </div>
             ) : (
               <form onSubmit={submit} noValidate className="grid gap-6">
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="grid gap-2">
-                    <Label htmlFor="name" className="mono-cap text-muted-foreground">Имя</Label>
-                    <Input id="name" placeholder="Как к вам обращаться" className={inputCls("name")} {...field("name")} />
+                    <Label htmlFor="name" className="mono-cap text-muted-foreground">{c.form.name}</Label>
+                    <Input id="name" placeholder={c.form.namePlaceholder} className={inputCls("name")} {...field("name")} />
                     {errors.name && <span className="text-sm text-destructive">{errors.name}</span>}
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="phone" className="mono-cap text-muted-foreground">Телефон</Label>
-                    <Input id="phone" type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" className={inputCls("phone")} {...field("phone")} />
+                    <Label htmlFor="phone" className="mono-cap text-muted-foreground">{c.form.phone}</Label>
+                    <Input id="phone" type="tel" inputMode="tel" placeholder={c.form.phonePlaceholder} className={inputCls("phone")} {...field("phone")} />
                     {errors.phone && <span className="text-sm text-destructive">{errors.phone}</span>}
                   </div>
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="object" className="mono-cap text-muted-foreground">Объект</Label>
-                  <Input id="object" placeholder="Например: технологическая эстакада, монтаж трубопроводов" className={inputCls("object")} {...field("object")} />
+                  <Label htmlFor="object" className="mono-cap text-muted-foreground">{c.form.object}</Label>
+                  <Input id="object" placeholder={c.form.objectPlaceholder} className={inputCls("object")} {...field("object")} />
                   {errors.object && <span className="text-sm text-destructive">{errors.object}</span>}
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="service" className="mono-cap text-muted-foreground">Нужная услуга</Label>
+                  <Label htmlFor="service" className="mono-cap text-muted-foreground">{c.form.service}</Label>
                   <div className="relative">
                     <select
                       id="service"
@@ -181,11 +184,11 @@ const Contacts = () => {
                       }}
                       className={`${inputCls("service")} w-full appearance-none border px-3 pr-10 outline-none focus-visible:ring-2 focus-visible:ring-ring ${form.service ? "text-foreground" : "text-muted-foreground"}`}
                     >
-                      <option value="" disabled>Выберите из списка</option>
+                      <option value="" disabled>{c.form.servicePlaceholder}</option>
                       {services.map((s) => (
                         <option key={s.id} value={s.title}>{s.title}</option>
                       ))}
-                      <option value="Комплекс услуг / пока не знаю">Комплекс услуг / пока не знаю</option>
+                      <option value={c.form.serviceOther}>{c.form.serviceOther}</option>
                     </select>
                     <Icon name="ChevronDown" size={18} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   </div>
@@ -197,11 +200,11 @@ const Contacts = () => {
                   disabled={loading}
                   className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-[6px] bg-foreground text-[1.05rem] text-background transition-opacity hover:opacity-85 disabled:opacity-60"
                 >
-                  {loading ? "Отправляем…" : "Отправить заявку"}
+                  {loading ? c.form.sending : c.form.submit}
                   <Icon name={loading ? "Loader2" : "ArrowRight"} size={18} className={loading ? "animate-spin" : ""} />
                 </button>
                 <p className="text-[0.8rem] leading-relaxed text-muted-foreground">
-                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+                  {c.form.consent}
                 </p>
               </form>
             )}

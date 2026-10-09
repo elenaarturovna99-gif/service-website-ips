@@ -1,18 +1,45 @@
 import { useEffect, useState } from "react";
 import Icon from "@/components/ui/icon";
+import { useLang, type Lang } from "@/i18n/LanguageContext";
 
-const links = [
-  { href: "#services", label: "Услуги" },
-  { href: "#why", label: "Почему мы" },
-  { href: "#process", label: "Этапы" },
-  { href: "#experience", label: "Опыт" },
-  { href: "#faq", label: "Вопросы" },
-  { href: "#contacts", label: "Контакты" },
-];
+const LangSwitch = () => {
+  const { lang, setLang, t } = useLang();
+  const langs: Lang[] = ["ru", "en"];
+  return (
+    <div role="group" aria-label={t.header.switchLang} className="flex items-center gap-1">
+      {langs.map((l) => {
+        const on = l === lang;
+        return (
+          <button
+            key={l}
+            type="button"
+            onClick={() => setLang(l)}
+            aria-pressed={on}
+            className={`mono-cap rounded-[4px] border px-2 py-1 text-current transition-opacity ${
+              on ? "border-current opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+            }`}
+          >
+            {l.toUpperCase()}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
 
 const Header = () => {
+  const { t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "#services", label: t.nav.services },
+    { href: "#why", label: t.nav.why },
+    { href: "#process", label: t.nav.process },
+    { href: "#experience", label: t.nav.experience },
+    { href: "#faq", label: t.nav.faq },
+    { href: "#contacts", label: t.nav.contacts },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -36,8 +63,14 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center justify-between px-5 py-3 md:pl-12 md:pr-10 md:pt-4 md:pb-3">
-        <a href="#top" className="text-[1.2rem] font-medium tracking-[-0.02em] md:text-[1.45rem]">
-          Исполнительная&nbsp;документация
+        <a href="#top" className="flex items-center gap-3">
+          <img src="/favicon.svg" alt="" className="h-8 w-8 shrink-0 rounded-[6px] md:h-9 md:w-9" />
+          <span className="flex flex-col">
+            <span className="text-[1.2rem] font-medium leading-none tracking-[-0.02em] md:text-[1.45rem]">
+              {t.brand.name}
+            </span>
+            <span className="mono-cap mt-1 hidden opacity-70 md:block">{t.brand.caption}</span>
+          </span>
         </a>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -50,6 +83,7 @@ const Header = () => {
               {l.label}
             </a>
           ))}
+          <LangSwitch />
           <a
             href="#contacts"
             className={`rounded-[6px] border px-4 py-3 text-[1.05rem] transition-colors ${
@@ -58,17 +92,20 @@ const Header = () => {
                 : "border-white/60 hover:bg-white hover:text-hero-ink"
             }`}
           >
-            Обсудить объект
+            {t.header.cta}
           </a>
         </nav>
 
-        <button
-          aria-label="Меню"
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-current/30 lg:hidden"
-        >
-          <Icon name={open ? "X" : "Menu"} size={20} />
-        </button>
+        <div className="flex items-center gap-3 lg:hidden">
+          <LangSwitch />
+          <button
+            aria-label={t.header.menu}
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-current/30"
+          >
+            <Icon name={open ? "X" : "Menu"} size={20} />
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -92,7 +129,7 @@ const Header = () => {
             onClick={() => setOpen(false)}
             className="mt-8 flex justify-center rounded-[6px] bg-foreground py-4 text-lg text-background"
           >
-            Обсудить объект
+            {t.header.cta}
           </a>
         </div>
       )}

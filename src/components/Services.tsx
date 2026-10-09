@@ -2,52 +2,12 @@ import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
-
-export const services = [
-  {
-    id: "dev",
-    icon: "FilePlus2",
-    title: "Разработка исполнительной документации",
-    text: "Ведём комплект ИД параллельно со строительством: акты скрытых работ, исполнительные схемы, журналы, реестры — по актуальным требованиям РД-11-02-2006 и Приказа Минстроя № 344/пр.",
-    result: "Комплект, готовый к приёмке, без задержки ввода объекта",
-    points: ["Акты на металлоконструкции и фундаменты", "ИД на технологические трубопроводы", "Сварочные и специальные журналы", "Реестры для Ростехнадзора"],
-  },
-  {
-    id: "restore",
-    icon: "History",
-    title: "Восстановление исполнительной документации",
-    text: "Восстанавливаем утерянную или не оформленную вовремя документацию по завершённым работам: собираем данные, проводим обмеры и сверку с проектом.",
-    result: "Полный комплект ИД даже для объектов, сданных «без бумаг»",
-    points: ["Анализ имеющихся документов", "Обмеры и геосъёмка", "Восстановление актов и схем", "Согласование с участниками"],
-  },
-  {
-    id: "audit",
-    icon: "ScanSearch",
-    title: "Аудит документации",
-    text: "Проверяем готовый или текущий комплект на полноту и соответствие нормативам до того, как его увидит технадзор, заказчик или ГСН.",
-    result: "Перечень замечаний и план исправлений до сдачи",
-    points: ["Проверка комплектности", "Сверка с проектом", "Соответствие нормам", "Письменное заключение"],
-  },
-  {
-    id: "quality",
-    icon: "BadgeCheck",
-    title: "Контроль качества",
-    text: "Входной, операционный и приёмочный контроль работ и материалов. Фиксируем отклонения и сопровождаем их устранение.",
-    result: "Работы, принятые без переделок и споров с подрядчиком",
-    points: ["Входной контроль материалов", "Операционный контроль", "Фотофиксация", "Предписания и их закрытие"],
-  },
-  {
-    id: "control",
-    icon: "HardHat",
-    title: "Строительный контроль",
-    text: "Осуществляем строительный контроль со стороны заказчика: объёмы, сроки, качество, соответствие проекту и требованиям СП.",
-    result: "Независимый взгляд и защита интересов заказчика на площадке",
-    points: ["Контроль объёмов и сроков", "Приёмка этапов", "Отчёты заказчику", "Участие в комиссиях"],
-  },
-];
+import { useLang } from "@/i18n/LanguageContext";
 
 const Services = () => {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLang();
+  const services = t.services.items;
   const [active, setActive] = useState(services[0].id);
   const current = services.find((s) => s.id === active) ?? services[0];
 
@@ -56,9 +16,9 @@ const Services = () => {
       <div className="mx-auto max-w-7xl">
         <SectionHead
           index="01"
-          label="Услуги"
-          title={<>Пять направлений —<br className="hidden md:block" /> одна цель: сдача без замечаний</>}
-          lead="Специализируемся на промышленном строительстве. Работаем по действующим нормативам и требованиям промбезопасности: документация проходит технадзор заказчика и Ростехнадзор с первого раза."
+          label={t.services.label}
+          title={<>{t.services.titleA}<br className="hidden md:block" />{t.services.titleB}</>}
+          lead={t.services.lead}
         />
 
         <div className="reveal grid gap-px overflow-hidden rounded-[6px] border border-border bg-border lg:grid-cols-12">
@@ -109,7 +69,7 @@ const Services = () => {
             </ul>
 
             <div className="mt-10 rounded-[6px] border border-border bg-muted/60 p-5">
-              <div className="mono-cap text-muted-foreground">Результат для заказчика</div>
+              <div className="mono-cap text-muted-foreground">{t.services.resultLabel}</div>
               <div className="mt-2 text-[1.1rem] tracking-[-0.02em]">{current.result}</div>
             </div>
 
@@ -118,7 +78,7 @@ const Services = () => {
               onClick={() => window.dispatchEvent(new CustomEvent("pick-service", { detail: current.title }))}
               className="mt-8 inline-flex items-center gap-2 rounded-[6px] bg-foreground px-5 py-3 text-background transition-opacity hover:opacity-85"
             >
-              Заказать услугу
+              {t.services.order}
               <Icon name="ArrowUpRight" size={16} />
             </a>
           </div>

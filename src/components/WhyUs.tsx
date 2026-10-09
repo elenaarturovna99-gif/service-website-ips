@@ -1,53 +1,27 @@
 import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
+import { useLang } from "@/i18n/LanguageContext";
 
 const IMG =
   "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/67f44d5e-b032-4482-a69d-1fe9b5b64234.jpg";
 
-const stats = [
-  { value: "12+", label: "лет в строительстве" },
-  { value: "180+", label: "объектов сдано" },
-  { value: "0", label: "возвратов комплектов на доработку в 2025" },
-];
-
-const reasons = [
-  {
-    icon: "Scale",
-    title: "Строго по нормативам",
-    text: "Приказ Минстроя № 344/пр, РД-11-02-2006, РД-11-05-2007, актуальные СП. Следим за изменениями и обновляем формы.",
-  },
-  {
-    icon: "ShieldCheck",
-    title: "Сдача без замечаний",
-    text: "Каждый комплект проходит внутреннюю проверку перед передачей заказчику и технадзору.",
-  },
-  {
-    icon: "Award",
-    title: "Допуски и квалификация",
-    text: "Членство в СРО, специалист в НРС, аттестация Ростехнадзора по промбезопасности. Документы предоставляем по запросу.",
-  },
-  {
-    icon: "Timer",
-    title: "Сроки в договоре",
-    text: "Фиксируем сроки и состав работ. Не тянем — понимаем, что от комплекта зависит ввод объекта.",
-  },
-];
-
 const WhyUs = () => {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLang();
+  const { stats, reasons } = t.why;
   return (
     <section id="why" ref={ref} className="bg-background px-5 py-24 md:px-12 md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHead
           index="02"
-          label="Почему мы"
-          title="Спокойствие заказчика — в правильно собранных бумагах"
+          label={t.why.label}
+          title={t.why.title}
         />
 
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="reveal relative overflow-hidden rounded-[6px] lg:col-span-6">
-            <img src={IMG} alt="Рабочее место инженера на строительном объекте" className="h-full min-h-[320px] w-full object-cover" />
+            <img src={IMG} alt={t.why.imageAlt} className="h-full min-h-[320px] w-full object-cover" />
             <div
               className="absolute inset-0"
               style={{

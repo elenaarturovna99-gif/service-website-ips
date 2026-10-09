@@ -1,19 +1,38 @@
-const Footer = () => (
-  <footer className="bg-hero px-5 py-12 text-hero-text md:px-12">
-    <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-end md:justify-between">
-      <div>
-        <div className="text-[1.3rem] font-medium tracking-[-0.02em]">Исполнительная документация</div>
-        <div className="mono-cap mt-3 text-hero-muted">ИП · Строительный контроль на каждом этапе</div>
+import { useLang } from "@/i18n/LanguageContext";
+
+const Footer = () => {
+  const { t } = useLang();
+  const links = [
+    { href: "#services", label: t.nav.services },
+    { href: "#process", label: t.nav.process },
+    { href: "#faq", label: t.nav.faq },
+    { href: "#contacts", label: t.nav.contacts },
+  ];
+
+  return (
+    <footer className="bg-hero px-5 py-12 text-hero-text md:px-12">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <div>
+          <a href="#top" className="flex items-center gap-3">
+            <img src="/favicon.svg" alt="" className="h-9 w-9 shrink-0 rounded-[6px]" />
+            <span className="text-[1.3rem] font-medium tracking-[-0.02em]">{t.brand.name}</span>
+          </a>
+          <div className="mono-cap mt-4 text-hero-muted">{t.brand.slogan}</div>
+          <div className="mono-cap mt-2 text-hero-muted">{t.brand.legal}</div>
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[0.95rem]">
+            <a href="tel:+79049413669" className="hover:text-hero-muted">+7 (904) 941-36-69</a>
+            <a href="mailto:heavyprom.ru@yandex.ru" className="hover:text-hero-muted">heavyprom.ru@yandex.ru</a>
+          </div>
+        </div>
+        <nav className="mono-cap flex flex-wrap gap-6 text-hero-muted">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="hover:text-hero-text">{l.label}</a>
+          ))}
+        </nav>
+        <div className="mono-cap text-hero-muted">© {new Date().getFullYear()} {t.brand.name}</div>
       </div>
-      <nav className="mono-cap flex flex-wrap gap-6 text-hero-muted">
-        <a href="#services" className="hover:text-hero-text">Услуги</a>
-        <a href="#process" className="hover:text-hero-text">Этапы</a>
-        <a href="#faq" className="hover:text-hero-text">Вопросы</a>
-        <a href="#contacts" className="hover:text-hero-text">Контакты</a>
-      </nav>
-      <div className="mono-cap text-hero-muted">© {new Date().getFullYear()}</div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

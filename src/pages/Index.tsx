@@ -7,9 +7,11 @@ import Experience from "@/components/Experience";
 import Faq from "@/components/Faq";
 import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/i18n/LanguageContext";
 
 const Index = () => {
   return (
+    <LanguageProvider>
     <div className="min-h-screen bg-background">
       <Header />
       <main>
@@ -23,6 +25,7 @@ const Index = () => {
       </main>
       <Footer />
     </div>
+    </LanguageProvider>
   );
 };
 

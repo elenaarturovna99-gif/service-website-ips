@@ -1,7 +1,10 @@
+import { useLang } from "@/i18n/LanguageContext";
+
 const PHOTO =
   "https://cdn.poehali.dev/projects/98062dde-2a15-4d2a-9e82-9b366094add5/files/15afb911-c961-46c8-8ed4-c503078ca6c7.jpg";
 
 const Hero = () => {
+  const { t } = useLang();
   return (
     <section
       id="top"
@@ -19,20 +22,19 @@ const Hero = () => {
           className="font-normal leading-[1.08] tight"
           style={{ fontSize: "clamp(44px, 7.5vw, var(--hero-size-head))" }}
         >
-          Документация в порядке
+          {t.hero.title}
         </h1>
         <p
           className="mx-auto mt-8 max-w-[620px] leading-[1.45] text-hero-muted md:mt-11"
           style={{ fontSize: "clamp(16px, 1.6vw, var(--hero-size-body))" }}
         >
-          Исполнительная документация, аудит, контроль качества и строительный контроль на
-          промышленных объектах: газохимия, нефтехимия, энергетика, заводы и сети.
+          {t.hero.text}
         </p>
       </div>
 
       <a
         href="#services"
-        aria-label="К услугам"
+        aria-label={t.hero.scrollLabel}
         className="absolute left-1/2 top-[calc(24vh+330px)] z-[2] -translate-x-1/2 animate-bob md:top-[600px]"
       >
         <svg width="22" height="28" viewBox="0 0 22 28" fill="none" stroke="currentColor" strokeWidth="1">
@@ -41,7 +43,7 @@ const Hero = () => {
       </a>
 
       <div className="mono-cap absolute bottom-[30px] left-5 z-[2] text-hero-text md:left-9">
-        Промышленное строительство · ОПО · линейные объекты
+        {t.hero.caption}
       </div>
     </section>
   );

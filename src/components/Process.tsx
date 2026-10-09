@@ -1,39 +1,11 @@
 import Icon from "@/components/ui/icon";
 import { useReveal } from "@/hooks/use-reveal";
-
-const steps = [
-  {
-    n: "01",
-    icon: "Send",
-    title: "Заявка",
-    text: "Оставляете заявку или звоните. Уточняем объект, стадию работ и задачу — в тот же день.",
-    time: "1 день",
-  },
-  {
-    n: "02",
-    icon: "Search",
-    title: "Анализ объекта",
-    text: "Изучаем проект и имеющиеся документы, выезжаем на площадку. Фиксируем объём, сроки и стоимость в договоре.",
-    time: "2–5 дней",
-  },
-  {
-    n: "03",
-    icon: "PenTool",
-    title: "Разработка или восстановление",
-    text: "Готовим акты, схемы и журналы, согласуем с участниками строительства, проходим внутреннюю проверку.",
-    time: "по графику",
-  },
-  {
-    n: "04",
-    icon: "PackageCheck",
-    title: "Сдача комплекта",
-    text: "Передаём сформированный комплект в бумаге и электронном виде, сопровождаем приёмку до подписания.",
-    time: "без замечаний",
-  },
-];
+import { useLang } from "@/i18n/LanguageContext";
 
 const Process = () => {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLang();
+  const steps = t.process.steps;
   return (
     <section
       id="process"
@@ -54,10 +26,10 @@ const Process = () => {
           <div className="mono-cap flex items-center gap-3 text-hero-muted md:col-span-3">
             <span className="text-hero-text">03</span>
             <span className="h-px w-8 bg-white/30" />
-            Как мы работаем
+            {t.process.label}
           </div>
           <h2 className="text-[2.25rem] font-normal leading-[1.05] tight md:col-span-9 md:text-[3.5rem]">
-            Четыре шага от заявки до подписанного акта
+            {t.process.title}
           </h2>
         </div>
 
@@ -72,7 +44,7 @@ const Process = () => {
               <div className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/50 bg-hero">
                 <Icon name={s.icon} size={18} />
               </div>
-              <div className="mono-cap mt-8 text-hero-muted">Этап {s.n}</div>
+              <div className="mono-cap mt-8 text-hero-muted">{t.process.stepLabel} {s.n}</div>
               <h3 className="mt-3 text-[1.5rem] font-normal leading-tight tracking-[-0.03em]">{s.title}</h3>
               <p className="mt-4 text-[0.95rem] leading-relaxed text-hero-muted">{s.text}</p>
               <div className="mono-cap mt-6 inline-block rounded-[6px] border border-white/30 px-3 py-1.5">
