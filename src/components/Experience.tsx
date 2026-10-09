@@ -41,7 +41,10 @@ const Experience = () => {
                   <p className="mt-2 text-[0.98rem] text-muted-foreground">{p.task}</p>
 
                   {p.facts.length > 0 && (
-                    <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-[6px] border border-border bg-border">
+                    <div
+                      className="mt-6 grid gap-px overflow-hidden rounded-[6px] border border-border bg-border"
+                      style={{ gridTemplateColumns: `repeat(${p.facts.length}, minmax(0, 1fr))` }}
+                    >
                       {p.facts.map((f) => (
                         <div key={f.label} className="bg-muted/60 p-4">
                           <div className="text-[1.15rem] leading-tight tracking-[-0.02em] md:text-[1.4rem]">{f.value}</div>

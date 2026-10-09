@@ -84,7 +84,7 @@ const en: Dict = {
     title: "Client peace of mind starts with properly assembled paperwork",
     imageAlt: "Engineer's workstation on a construction site",
     stats: [
-      { value: "8+", label: "years of team experience" },
+      { value: "14+", label: "years of team experience" },
       { value: "8+", label: "facilities handed over" },
       { value: "0", label: "packages returned for revision in 2025" },
     ],
@@ -151,6 +151,16 @@ const en: Dict = {
     title: "Our projects",
     lead: "Industrial and public facilities where we handled as-built documentation. Most recent first.",
     projects: [
+      {
+        year: "2026",
+        place: "Krasnoyarsk Territory",
+        title: "Gold Recovery Plant No. 5 (ZIF-5), Blagodatnoye ore deposit",
+        task: "As-built documentation development and recovery, documentation audit",
+        works: ["Electrical installation works", "Steel structures", "Monorails", "Recovery of as-built documentation for all sections", "As-built documentation audit"],
+        facts: [
+          { value: "8.3 Mt", label: "of ore per year — plant capacity" },
+        ],
+      },
       {
         year: "2026",
         place: "Moscow",
