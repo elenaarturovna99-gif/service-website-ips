@@ -8,7 +8,8 @@ const en: Dict = {
     name: "HeavyProm",
     caption: "Documentation for heavy industry",
     slogan: "As-built documentation and construction supervision at every stage",
-    legal: "Sole proprietor E. A. Karimova",
+    legal: "Sole proprietor Elena A. Karimova",
+    requisites: "TIN 741708300897 · OGRNIP 325745600154672",
     privacy: "Privacy policy",
   },
   nav: {
