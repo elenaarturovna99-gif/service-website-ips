@@ -127,6 +127,11 @@ const en: Dict = {
         title: "Deadlines set in the contract",
         text: "We fix the schedule and scope of work. No delays — we know commissioning depends on the package.",
       },
+      {
+        icon: "MonitorCheck",
+        title: "Electronic as-built docs in client systems",
+        text: "We prepare and submit as-built documentation electronically with digital signatures. Hands-on experience with AIS NSK and CIS (Construction Information System) on major industrial projects.",
+      },
     ],
   },
   process: {
@@ -222,6 +227,10 @@ const en: Dict = {
     label: "Questions & answers",
     title: "Answers to common questions",
     items: [
+      {
+        q: "Do you handle as-built documentation electronically?",
+        a: "Yes. We have prepared and submitted as-built documentation electronically in AIS NSK (automated information system for independent construction supervision) and CIS (Construction Information System): uploading documents, going through approval, closing comments and signing with a digital signature. We work in whichever system the client uses and prepare a paper set in parallel if needed.",
+      },
       {
         q: "Can documentation be recovered if the facility is already built?",
         a: "Yes. We review the existing documents, carry out field measurements and surveying, reconcile the actual construction with the design and restore certificates, drawings and logs. Timing depends on scope — usually from two weeks.",

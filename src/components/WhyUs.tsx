@@ -43,7 +43,9 @@ const WhyUs = () => {
             {reasons.map((r, i) => (
               <div
                 key={r.title}
-                className="reveal group bg-card p-7 transition-colors hover:bg-muted"
+                className={`reveal group bg-card p-7 transition-colors hover:bg-muted ${
+                  reasons.length % 2 === 1 && i === reasons.length - 1 ? "sm:col-span-2" : ""
+                }`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <Icon name={r.icon} size={22} className="text-primary" />
