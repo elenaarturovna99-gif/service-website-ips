@@ -236,7 +236,7 @@ const en: Dict = {
       },
       {
         q: "How is the price calculated?",
-        a: "The price depends on the facility type, scope of work and construction stage. After reviewing the project we fix the price and timeline in the contract — no extra charges along the way.",
+        a: "The price depends on the facility type, scope of work and construction stage. After reviewing the project we fix the price and timeline in the contract — no extra charges along the way. The price of cost estimates and bills of quantities depends on the volume of design documentation and the number of sections.",
       },
       {
         q: "Do you work in other regions?",
@@ -245,6 +245,18 @@ const en: Dict = {
       {
         q: "What documents do you need from the client to get started?",
         a: "Design and working documentation, the construction contract, and any existing certificates and logs. If something is missing, we'll advise how to fill the gaps.",
+      },
+      {
+        q: "What is a bill of quantities and why is it needed?",
+        a: "It is a list of all works on the facility with their quantities: cubic metres of concrete, tonnes of steel structures, metres of piping and so on. The BoQ is the basis for the cost estimate, the tender and the contract. The more accurate it is, the fewer disputes over cost and quantities when works are closed out.",
+      },
+      {
+        q: "Why review a contractor's cost estimate?",
+        a: "Estimates often contain inflated quantities, inappropriate rates or unnecessary coefficients. We check the calculation against the design and regulations and issue a list of remarks with justification. This helps the client avoid overpaying and helps the contractor defend the estimate during review.",
+      },
+      {
+        q: "What do you need to prepare an estimate or a BoQ?",
+        a: "Design or working documentation: drawings, specifications, explanatory note. For additional works — a description of the works and, if needed, inspection reports. We set the timeline and price after reviewing the documentation.",
       },
     ],
   },
