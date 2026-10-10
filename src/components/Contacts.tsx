@@ -47,6 +47,16 @@ const Contacts = () => {
     return () => window.removeEventListener("pick-service", onPick);
   }, []);
 
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("service");
+    const picked = services.find((s) => s.id === id);
+    if (picked) setForm((f) => ({ ...f, service: picked.title }));
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth" }), 300);
+    }
+  }, [services]);
+
   const validate = () => {
     const e: Errors = {};
     if (form.name.trim().length < 2) e.name = c.errors.name;

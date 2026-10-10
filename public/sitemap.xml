@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://heavyprom.ru/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://heavyprom.ru/</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/razrabotka-ispolnitelnoj-dokumentacii</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/vosstanovlenie-ispolnitelnoj-dokumentacii</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/audit-ispolnitelnoj-dokumentacii</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/kontrol-kachestva</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/stroitelnyj-kontrol</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/sostavlenie-i-proverka-smet</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/uslugi/vedomosti-obemov-rabot</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://heavyprom.ru/privacy</loc><lastmod>2026-10-09</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>

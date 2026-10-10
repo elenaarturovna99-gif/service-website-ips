@@ -3,13 +3,16 @@ import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
 import { useLang } from "@/i18n/LanguageContext";
+import { Link } from "react-router-dom";
+import { getServiceSlug } from "@/data/servicePages";
 
 const Services = () => {
   const ref = useReveal<HTMLElement>();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const services = t.services.items;
   const [active, setActive] = useState(services[0].id);
   const current = services.find((s) => s.id === active) ?? services[0];
+  const slug = getServiceSlug(current.id);
 
   return (
     <section id="services" ref={ref} className="bg-hero-fog px-5 py-24 md:px-12 md:py-32">
@@ -73,14 +76,25 @@ const Services = () => {
               <div className="mt-2 text-[1.1rem] tracking-[-0.02em]">{current.result}</div>
             </div>
 
-            <a
-              href={`#contacts`}
-              onClick={() => window.dispatchEvent(new CustomEvent("pick-service", { detail: current.title }))}
-              className="mt-8 inline-flex items-center gap-2 rounded-[6px] bg-foreground px-5 py-3 text-background transition-opacity hover:opacity-85"
-            >
-              {t.services.order}
-              <Icon name="ArrowUpRight" size={16} />
-            </a>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href={`#contacts`}
+                onClick={() => window.dispatchEvent(new CustomEvent("pick-service", { detail: current.title }))}
+                className="inline-flex items-center gap-2 rounded-[6px] bg-foreground px-5 py-3 text-background transition-opacity hover:opacity-85"
+              >
+                {t.services.order}
+                <Icon name="ArrowUpRight" size={16} />
+              </a>
+              {slug && (
+                <Link
+                  to={`/uslugi/${slug}`}
+                  className="inline-flex items-center gap-2 rounded-[6px] border border-foreground/30 px-5 py-3 transition-colors hover:bg-muted"
+                >
+                  {lang === "ru" ? "Подробнее об услуге" : "Learn more"}
+                  <Icon name="ArrowRight" size={16} />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
