@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useReveal } from "@/hooks/use-reveal";
 import { useLang } from "@/i18n/LanguageContext";
+import { reachGoal } from "@/lib/metrika";
 
 const LEAD_URL = "https://functions.poehali.dev/007dbce2-f142-404b-9a7a-7d2b0f2f3501";
 
@@ -81,6 +82,7 @@ const Contacts = () => {
       });
       if (!res.ok) throw new Error();
       setSent(true);
+      reachGoal("lead", { service: form.service });
       toast.success(c.toast.successTitle, { description: c.toast.successText });
     } catch {
       toast.error(c.toast.errorTitle, { description: c.toast.errorText });

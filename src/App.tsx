@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import Brand from "./pages/Brand";
 import Privacy from "./pages/Privacy";
 import ServicePage from "./pages/ServicePage";
+import RouteTracker from "./components/RouteTracker";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <RouteTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/logo" element={<Brand />} />
