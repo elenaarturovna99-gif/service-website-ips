@@ -83,7 +83,7 @@ const en: Dict = {
         id: "estimates",
         icon: "Calculator",
         title: "Cost estimates: preparation and review",
-        text: "We prepare local and object cost estimates based on design documentation and review contractors' estimates: justification of rates, quantities and coefficients. We use the resource-index method under FSNB-2022.",
+        text: "We prepare local and object cost estimates based on design documentation and review contractors' estimates: justification of rates, quantities and coefficients. We use whichever method the client requires: base-index or resource-index.",
         result: "A justified cost of works with no overpricing or overpayment",
         points: ["Local cost estimates", "Object cost estimates", "Contractor estimate review", "Estimates for additional works"],
       },
