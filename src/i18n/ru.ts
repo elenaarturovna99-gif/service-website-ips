@@ -11,6 +11,8 @@ const ru = {
     privacy: "Политика конфиденциальности",
   },
   nav: {
+    cases: "Кейсы",
+    articles: "Статьи",
     services: "Услуги",
     why: "Почему мы",
     process: "Этапы",

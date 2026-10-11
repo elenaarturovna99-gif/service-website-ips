@@ -9,6 +9,10 @@ import NotFound from "./pages/NotFound";
 import Brand from "./pages/Brand";
 import Privacy from "./pages/Privacy";
 import ServicePage from "./pages/ServicePage";
+import Articles from "./pages/Articles";
+import ArticlePage from "./pages/ArticlePage";
+import Cases from "./pages/Cases";
+import CasePage from "./pages/CasePage";
 import RouteTracker from "./components/RouteTracker";
 
 const queryClient = new QueryClient();
@@ -25,6 +29,10 @@ const App = () => (
           <Route path="/logo" element={<Brand />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/uslugi/:slug" element={<ServicePage />} />
+          <Route path="/stati" element={<Articles />} />
+          <Route path="/stati/:slug" element={<ArticlePage />} />
+          <Route path="/kejsy" element={<Cases />} />
+          <Route path="/kejsy/:slug" element={<CasePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

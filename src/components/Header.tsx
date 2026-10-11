@@ -34,9 +34,9 @@ const Header = () => {
 
   const links = [
     { href: "#services", label: t.nav.services },
-    { href: "#why", label: t.nav.why },
-    { href: "#process", label: t.nav.process },
     { href: "#experience", label: t.nav.experience },
+    { href: "/kejsy", label: t.nav.cases },
+    { href: "/stati", label: t.nav.articles },
     { href: "#faq", label: t.nav.faq },
     { href: "#contacts", label: t.nav.contacts },
   ];

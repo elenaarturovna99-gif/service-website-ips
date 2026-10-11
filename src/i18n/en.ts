@@ -13,6 +13,8 @@ const en: Dict = {
     privacy: "Privacy policy",
   },
   nav: {
+    cases: "Cases",
+    articles: "Articles",
     services: "Services",
     why: "Why us",
     process: "Process",

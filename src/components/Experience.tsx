@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
@@ -68,6 +69,12 @@ const Experience = () => {
                 </div>
               </li>
             ))}
+            <li className="pl-8 pt-2 md:pl-[134px]">
+              <Link to="/kejsy" className="inline-flex items-center gap-2 rounded-[6px] border border-foreground/40 px-5 py-3 transition-colors hover:bg-foreground hover:text-background">
+                {t.nav.cases}
+                <Icon name="ArrowRight" size={16} />
+              </Link>
+            </li>
           </ol>
 
           <aside className="reveal lg:col-span-4">
