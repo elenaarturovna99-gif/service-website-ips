@@ -1,4 +1,5 @@
 import { todayIso, type Block } from "./content";
+import articles2027 from "./articles2027";
 
 export interface Article {
   slug: string;
@@ -774,9 +775,9 @@ const articles: Article[] = [
 
 export const getPublishedArticles = () => {
   const today = todayIso();
-  return articles.filter((a) => a.date <= today).sort((a, b) => b.date.localeCompare(a.date));
+  return [...articles, ...articles2027].filter((a) => a.date <= today).sort((a, b) => b.date.localeCompare(a.date));
 };
 
 export const getArticle = (slug?: string) => getPublishedArticles().find((a) => a.slug === slug);
 
-export default articles;
+export default [...articles, ...articles2027];
