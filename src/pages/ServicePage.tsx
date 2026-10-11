@@ -4,6 +4,7 @@ import Icon from "@/components/ui/icon";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import servicePages, { getServicePage } from "@/data/servicePages";
 import ru from "@/i18n/ru";
+import { SITE_URL, faqSchema, setJsonLd } from "@/lib/jsonld";
 
 const setMeta = (selector: string, attr: string, value: string) => {
   const el = document.querySelector(selector);
@@ -32,12 +33,36 @@ const ServicePage = () => {
       canonical.rel = "canonical";
       document.head.appendChild(canonical);
     }
+    const prevCanonical = canonical.href;
     canonical.href = url;
+    const removeService = setJsonLd("ld-service", {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: page.h1,
+      description: page.description,
+      url,
+      serviceType: page.h1,
+      areaServed: { "@type": "Country", name: "Россия" },
+      provider: { "@id": `${SITE_URL}/#organization` },
+    });
+    const removeCrumbs = setJsonLd("ld-breadcrumbs", {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Главная", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Услуги", item: `${SITE_URL}/#services` },
+        { "@type": "ListItem", position: 3, name: page.h1, item: url },
+      ],
+    });
+    const removeFaq = page.faq.length ? setJsonLd("ld-faq", faqSchema(page.faq)) : () => {};
     window.scrollTo(0, 0);
     return () => {
       document.title = prevTitle;
       setMeta('meta[name="description"]', "content", prevDesc);
-      canonical?.remove();
+      if (canonical) canonical.href = prevCanonical;
+      removeService();
+      removeCrumbs();
+      removeFaq();
     };
   }, [page]);
 
