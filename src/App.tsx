@@ -13,6 +13,7 @@ import Articles from "./pages/Articles";
 import ArticlePage from "./pages/ArticlePage";
 import Cases from "./pages/Cases";
 import CasePage from "./pages/CasePage";
+import DzenKit from "./pages/DzenKit";
 import RouteTracker from "./components/RouteTracker";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/stati/:slug" element={<ArticlePage />} />
           <Route path="/kejsy" element={<Cases />} />
           <Route path="/kejsy/:slug" element={<CasePage />} />
+          <Route path="/dzen-kit" element={<DzenKit />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
