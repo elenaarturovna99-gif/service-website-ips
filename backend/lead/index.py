@@ -23,10 +23,13 @@ def esc(v: str) -> str:
 
 
 def send_mail(name: str, phone: str, obj: str, service: str) -> bool:
-    password = os.environ.get("SMTP_PASSWORD")
+    password = os.environ.get("INFO_SMTP_PASSWORD")
+    sender = MAIL_TO
+    if not password:
+        password = os.environ.get("SMTP_PASSWORD")
+        sender = MAIL_FROM
     if not password:
         return False
-    sender = os.environ.get("SMTP_USER") or MAIL_FROM
     text = (
         f"Новая заявка с сайта heavyprom.ru\n\n"
         f"Имя: {name}\n"
