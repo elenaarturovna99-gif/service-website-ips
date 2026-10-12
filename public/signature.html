@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Подпись для почты — ХэвиПром</title>
+<style>
+  body{font-family:Arial,sans-serif;background:#f3f5f8;margin:0;padding:40px;color:#1e293b}
+  .box{background:#fff;max-width:720px;margin:0 auto;padding:32px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  .hint{font-size:14px;color:#64748b;margin-bottom:24px;line-height:1.5}
+  .sig{border:1px dashed #cbd5e1;padding:20px;border-radius:8px}
+  button{margin-top:20px;background:#1e293b;color:#fff;border:0;padding:12px 20px;border-radius:8px;font-size:15px;cursor:pointer}
+  #ok{margin-left:12px;color:#16a34a;font-size:14px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="hint">Нажмите «Скопировать подпись», затем вставьте её в Яндекс Почте: Настройки → Личные данные, подпись, портрет → Добавить подпись → Ctrl+V.</div>
+  <div class="sig" id="sig">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#1e293b;line-height:1.5">
+  <tr><td style="padding:0 0 4px 0">С уважением,</td></tr>
+  <tr><td style="padding:0 0 12px 0"><b>Каримова Елена</b><br><span style="color:#64748b">ХэвиПром — исполнительная документация и строительный контроль</span></td></tr>
+  <tr><td style="padding:0 0 12px 0"><a href="https://heavyprom.ru" target="_blank"><img src="https://heavyprom.ru/brand/email-logo.png" width="220" height="57" alt="ХэвиПром" style="display:block;border:0"></a></td></tr>
+  <tr><td style="border-top:2px solid #7ba1dc;padding:10px 0 0 0;font-size:13px">
+    Тел.: <a href="tel:+79049413669" style="color:#1e293b;text-decoration:none">+7 (904) 941-36-69</a><br>
+    E-mail: <a href="mailto:info@heavyprom.ru" style="color:#1e293b;text-decoration:none">info@heavyprom.ru</a><br>
+    Сайт: <a href="https://heavyprom.ru" style="color:#3b6fc4;text-decoration:none">heavyprom.ru</a>
+  </td></tr>
+  <tr><td style="padding:8px 0 0 0;font-size:11px;color:#94a3b8">ИП Каримова Елена Артуровна · ИНН 741708300897 · ОГРНИП 325745600154672</td></tr>
+</table>
+  </div>
+  <button onclick="copySig()">Скопировать подпись</button><span id="ok"></span>
+</div>
+<script>
+function copySig(){
+  var r=document.createRange();r.selectNode(document.getElementById('sig'));
+  var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+  document.execCommand('copy');s.removeAllRanges();
+  document.getElementById('ok').textContent='Скопировано';
+}
+</script>
+</body>
+</html>
