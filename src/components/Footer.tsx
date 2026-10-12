@@ -23,7 +23,7 @@ const Footer = () => {
           <div className="mono-cap mt-1 text-hero-muted">{t.brand.requisites}</div>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[0.95rem]">
             <a href="tel:+79049413669" className="hover:text-hero-muted">+7 (904) 941-36-69</a>
-            <a href="mailto:heavyprom.ru@yandex.ru" className="hover:text-hero-muted">heavyprom.ru@yandex.ru</a>
+            <a href="mailto:info@heavyprom.ru" className="hover:text-hero-muted">info@heavyprom.ru</a>
           </div>
         </div>
         <nav className="mono-cap flex flex-wrap gap-6 text-hero-muted">

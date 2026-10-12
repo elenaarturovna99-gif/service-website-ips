@@ -122,7 +122,7 @@ const Contacts = () => {
           <ul className="mt-12 space-y-6">
             {[
               { icon: "Phone", label: c.phoneLabel, value: "+7 (904) 941-36-69", href: "tel:+79049413669" },
-              { icon: "Mail", label: c.emailLabel, value: "heavyprom.ru@yandex.ru", href: "mailto:heavyprom.ru@yandex.ru" },
+              { icon: "Mail", label: c.emailLabel, value: "info@heavyprom.ru", href: "mailto:info@heavyprom.ru" },
               { icon: "Clock", label: c.hoursLabel, value: c.hours },
             ].map((item) => (
               <li key={item.label} className="flex items-start gap-4">

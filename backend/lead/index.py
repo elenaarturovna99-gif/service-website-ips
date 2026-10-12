@@ -6,7 +6,8 @@ from email.header import Header
 
 import psycopg2
 
-MAIL_TO = "heavyprom.ru@yandex.ru"
+MAIL_TO = "info@heavyprom.ru"
+MAIL_FROM = "heavyprom.ru@yandex.ru"
 CORS = {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
@@ -25,7 +26,7 @@ def send_mail(name: str, phone: str, obj: str, service: str) -> bool:
     password = os.environ.get("SMTP_PASSWORD")
     if not password:
         return False
-    sender = os.environ.get("SMTP_USER") or MAIL_TO
+    sender = os.environ.get("SMTP_USER") or MAIL_FROM
     text = (
         f"Новая заявка с сайта heavyprom.ru\n\n"
         f"Имя: {name}\n"

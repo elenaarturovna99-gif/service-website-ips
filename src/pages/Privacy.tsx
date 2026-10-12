@@ -5,7 +5,7 @@ import Icon from "@/components/ui/icon";
 const OPERATOR = "Индивидуальный предприниматель Каримова Елена Артуровна";
 const INN = "741708300897";
 const OGRNIP = "325745600154672";
-const EMAIL = "heavyprom.ru@yandex.ru";
+const EMAIL = "info@heavyprom.ru";
 const PHONE = "+7 (904) 941-36-69";
 const SITE = "heavyprom.ru";
 const UPDATED = "9 октября 2026 г.";
