@@ -11,6 +11,8 @@ const en: Dict = {
     legal: "Sole proprietor Elena A. Karimova",
     requisites: "TIN 741708300897 · OGRNIP 325745600154672",
     privacy: "Privacy policy",
+    review: "Leave a Google review",
+    dzen: "Follow us on Dzen",
   },
   nav: {
     cases: "Cases",

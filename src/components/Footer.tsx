@@ -1,4 +1,5 @@
 import { useLang } from "@/i18n/LanguageContext";
+import SocialLinks from "@/components/SocialLinks";
 
 const Footer = () => {
   const { t } = useLang();
@@ -25,6 +26,7 @@ const Footer = () => {
             <a href="tel:+79049413669" className="hover:text-hero-muted">+7 (904) 941-36-69</a>
             <a href="mailto:info@heavyprom.ru" className="hover:text-hero-muted">info@heavyprom.ru</a>
           </div>
+          <SocialLinks reviewLabel={t.brand.review} dzenLabel={t.brand.dzen} className="mt-5" />
         </div>
         <nav className="mono-cap flex flex-wrap gap-6 text-hero-muted">
           {links.map((l) => (

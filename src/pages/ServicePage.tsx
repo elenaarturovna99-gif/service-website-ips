@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import SocialLinks from "@/components/SocialLinks";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -228,6 +229,7 @@ const ServicePage = () => {
         <div className="mono-cap mx-auto flex max-w-7xl flex-col gap-3 text-muted-foreground md:flex-row md:justify-between">
           <span>© {new Date().getFullYear()} {ru.brand.name} · {ru.brand.legal}</span>
           <span>{ru.brand.requisites}</span>
+          <SocialLinks reviewLabel={ru.brand.review} dzenLabel={ru.brand.dzen} className="normal-case tracking-normal" />
           <Link to="/privacy" className="hover:text-foreground">{ru.brand.privacy}</Link>
         </div>
       </footer>
