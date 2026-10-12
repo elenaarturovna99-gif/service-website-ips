@@ -41,9 +41,19 @@ def send_mail(name: str, phone: str, obj: str, service: str) -> bool:
     msg["Subject"] = Header(f"Заявка с сайта: {name}, {phone}", "utf-8")
     msg["From"] = sender
     msg["To"] = MAIL_TO
-    with smtplib.SMTP_SSL("smtp.yandex.ru", 465, timeout=8) as s:
-        s.login(sender, password)
-        s.sendmail(sender, [MAIL_TO], msg.as_string())
+    try:
+        with smtplib.SMTP_SSL("smtp.yandex.ru", 465, timeout=3) as s:
+            s.login(sender, password)
+            s.sendmail(sender, [MAIL_TO], msg.as_string())
+    except (ConnectionRefusedError, OSError) as e:
+        if isinstance(e, smtplib.SMTPException):
+            raise
+        print(f"smtp 465 failed: {e}, trying 587")
+        with smtplib.SMTP("smtp.yandex.ru", 587, timeout=3) as s:
+            s.starttls()
+            s.login(sender, password)
+            s.sendmail(sender, [MAIL_TO], msg.as_string())
+    print(f"mail from {sender}")
     return True
 
 
