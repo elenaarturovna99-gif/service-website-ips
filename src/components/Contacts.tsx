@@ -234,12 +234,12 @@ const Contacts = () => {
                   {errors.service && <span className="text-sm text-destructive">{errors.service}</span>}
                 </div>
 
-                <div className="grid gap-5 rounded-[6px] border border-border p-5">
+                <div className="grid min-w-0 gap-5 rounded-[6px] border border-border p-4 sm:p-5">
                   <div>
                     <div className="text-[1.05rem] tracking-[-0.01em]">{c.form.docsTitle}</div>
                     <div className="mt-1 text-xs text-muted-foreground">{c.form.docsHint}</div>
                   </div>
-                  <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                     {(["tz", "contract"] as const).map((k) => (
                       <DocField
                         key={k}
