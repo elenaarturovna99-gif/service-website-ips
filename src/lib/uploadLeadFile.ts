@@ -34,5 +34,11 @@ export const uploadLeadFile = async (file: File) => {
     });
     if (!res.ok) throw new Error("upload");
   }
-  return { upload_id: uploadId, parts, name: file.name };
+  const done = await fetch(LEAD_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "finish_file", upload_id: uploadId, parts, name: file.name }),
+  });
+  if (!done.ok) throw new Error("upload");
+  return { upload_id: uploadId, name: file.name };
 };

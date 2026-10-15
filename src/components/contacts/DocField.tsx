@@ -4,22 +4,24 @@ import { ACCEPT } from "@/lib/uploadLeadFile";
 
 type Props = {
   label: string;
-  hint?: string;
-  file: File | null;
+  files: File[];
+  max: number;
   error?: string;
   attachText: string;
-  replaceText: string;
+  addMoreText: string;
   removeText: string;
-  onPick: (f: File | null) => void;
+  onAdd: (f: File[]) => void;
+  onRemove: (index: number) => void;
 };
 
 const formatSize = (b: number) => (b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} КБ` : `${(b / 1024 / 1024).toFixed(1)} МБ`);
 
-const DocField = ({ label, hint, file, error, attachText, replaceText, removeText, onPick }: Props) => {
+const DocField = ({ label, files, max, error, attachText, addMoreText, removeText, onAdd, onRemove }: Props) => {
   const input = useRef<HTMLInputElement>(null);
+  const canAdd = files.length < max;
 
   return (
-    <div className="grid min-w-0 gap-2">
+    <div className="grid min-w-0 content-start gap-2">
       {label && (
         <div className="mono-cap text-muted-foreground">
           {label} <span className="text-destructive">*</span>
@@ -28,15 +30,16 @@ const DocField = ({ label, hint, file, error, attachText, replaceText, removeTex
       <input
         ref={input}
         type="file"
+        multiple
         accept={ACCEPT}
         className="hidden"
         onChange={(e) => {
-          onPick(e.target.files?.[0] ?? null);
+          onAdd(Array.from(e.target.files ?? []));
           e.target.value = "";
         }}
       />
-      {file ? (
-        <div className="flex min-w-0 items-center gap-2 rounded-[6px] border border-input bg-card py-2 pl-3 pr-1.5">
+      {files.map((file, i) => (
+        <div key={`${file.name}-${i}`} className="flex min-w-0 items-center gap-2 rounded-[6px] border border-input bg-card py-2 pl-3 pr-1.5">
           <Icon name="FileText" size={20} className="shrink-0 text-primary" />
           <div className="min-w-0 flex-1">
             <div className="truncate text-[0.95rem]" title={file.name}>{file.name}</div>
@@ -44,16 +47,7 @@ const DocField = ({ label, hint, file, error, attachText, replaceText, removeTex
           </div>
           <button
             type="button"
-            onClick={() => input.current?.click()}
-            aria-label={replaceText}
-            title={replaceText}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <Icon name="RefreshCw" size={15} />
-          </button>
-          <button
-            type="button"
-            onClick={() => onPick(null)}
+            onClick={() => onRemove(i)}
             aria-label={removeText}
             title={removeText}
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -61,19 +55,19 @@ const DocField = ({ label, hint, file, error, attachText, replaceText, removeTex
             <Icon name="X" size={16} />
           </button>
         </div>
-      ) : (
+      ))}
+      {canAdd && (
         <button
           type="button"
           onClick={() => input.current?.click()}
-          className={`flex h-12 items-center justify-center gap-2 rounded-[6px] border border-dashed bg-card text-[0.95rem] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground ${
-            error ? "border-destructive" : "border-input"
-          }`}
+          className={`flex items-center justify-center gap-2 rounded-[6px] border border-dashed bg-card text-muted-foreground transition-colors hover:border-foreground hover:text-foreground ${
+            files.length ? "h-10 text-[0.85rem]" : "h-12 text-[0.95rem]"
+          } ${error ? "border-destructive" : "border-input"}`}
         >
-          <Icon name="Paperclip" size={18} />
-          {attachText}
+          <Icon name={files.length ? "Plus" : "Paperclip"} size={files.length ? 16 : 18} />
+          {files.length ? addMoreText : attachText}
         </button>
       )}
-      {hint && !error && <span className="text-xs text-muted-foreground">{hint}</span>}
       {error && <span className="text-sm text-destructive">{error}</span>}
     </div>
   );

@@ -12,8 +12,12 @@ import DocField from "@/components/contacts/DocField";
 import { ALLOWED_EXT, LEAD_URL, MAX_FILE_SIZE, fileExt, uploadLeadFile } from "@/lib/uploadLeadFile";
 
 type DocKey = "tz" | "contract" | "responsibility";
-type Errors = Partial<Record<"name" | "phone" | "object" | "service" | "consent" | DocKey, string>>;
-const emptyDocs: Record<DocKey, File | null> = { tz: null, contract: null, responsibility: null };
+type Errors = Partial<Record<"name" | "phone" | "email" | "inn" | "object" | "service" | "consent" | DocKey, string>>;
+const emptyDocs: Record<DocKey, File[]> = { tz: [], contract: [], responsibility: [] };
+const emptyForm = { name: "", phone: "", email: "", company: "", inn: "", object: "", service: "" };
+const MAX_PER_KIND = 5;
+const MAX_TOTAL = 50 * 1024 * 1024;
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
 
 const formatPhone = (raw: string) => {
   let d = raw.replace(/\D/g, "");
@@ -35,7 +39,7 @@ const Contacts = () => {
   const { t } = useLang();
   const c = t.contacts;
   const services = t.services.items;
-  const [form, setForm] = useState({ name: "", phone: "", object: "", service: "" });
+  const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
   const [agree, setAgree] = useState(false);
@@ -44,12 +48,19 @@ const Contacts = () => {
   const [respMode, setRespMode] = useState<"text" | "file">("text");
   const [respText, setRespText] = useState("");
 
-  const pickDoc = (k: DocKey) => (f: File | null) => {
-    if (f && f.size > MAX_FILE_SIZE) return setErrors((er) => ({ ...er, [k]: c.errors.fileSize }));
-    if (f && !ALLOWED_EXT.includes(fileExt(f.name))) return setErrors((er) => ({ ...er, [k]: c.errors.fileType }));
-    setDocs((d) => ({ ...d, [k]: f }));
+  const addDocs = (k: DocKey) => (list: File[]) => {
+    if (list.some((f) => f.size > MAX_FILE_SIZE)) return setErrors((er) => ({ ...er, [k]: c.errors.fileSize }));
+    if (list.some((f) => !ALLOWED_EXT.includes(fileExt(f.name)))) return setErrors((er) => ({ ...er, [k]: c.errors.fileType }));
+    if (docs[k].length + list.length > MAX_PER_KIND) return setErrors((er) => ({ ...er, [k]: c.errors.filesLimit }));
+    setDocs((d) => ({ ...d, [k]: [...d[k], ...list] }));
     setErrors((er) => ({ ...er, [k]: undefined }));
   };
+
+  const removeDoc = (k: DocKey) => (i: number) => setDocs((d) => ({ ...d, [k]: d[k].filter((_, j) => j !== i) }));
+
+  const docsToSend = (Object.keys(docs) as DocKey[]).flatMap((k) =>
+    k === "responsibility" && respMode === "text" ? [] : docs[k].map((file) => ({ kind: k, file })),
+  );
 
   useEffect(() => {
     const onPick = (e: Event) => {
@@ -75,11 +86,15 @@ const Contacts = () => {
     const e: Errors = {};
     if (form.name.trim().length < 2) e.name = c.errors.name;
     if (form.phone.replace(/\D/g, "").length !== 11) e.phone = c.errors.phone;
+    if (!EMAIL_RE.test(form.email.trim())) e.email = c.errors.email;
+    const inn = form.inn.replace(/\D/g, "");
+    if (inn && inn.length !== 10 && inn.length !== 12) e.inn = c.errors.inn;
     if (form.object.trim().length < 3) e.object = c.errors.object;
     if (!form.service) e.service = c.errors.service;
-    if (!docs.tz) e.tz = c.errors.tz;
-    if (!docs.contract) e.contract = c.errors.contract;
-    if (respMode === "text" ? respText.trim().length < 3 : !docs.responsibility) e.responsibility = c.errors.responsibility;
+    if (!docs.tz.length) e.tz = c.errors.tz;
+    if (!docs.contract.length) e.contract = c.errors.contract;
+    if (respMode === "text" ? respText.trim().length < 3 : !docs.responsibility.length) e.responsibility = c.errors.responsibility;
+    if (docsToSend.reduce((sum, d) => sum + d.file.size, 0) > MAX_TOTAL) e.tz = e.tz || c.errors.totalSize;
     if (!agree) e.consent = c.errors.consent;
     return e;
   };
@@ -91,15 +106,12 @@ const Contacts = () => {
     if (Object.keys(e).length || loading) return;
     setLoading(true);
     try {
-      const toSend = (Object.keys(docs) as DocKey[]).filter(
-        (k) => docs[k] && (k !== "responsibility" || respMode === "file"),
-      );
       const files = [];
-      for (const k of toSend) files.push({ kind: k, ...(await uploadLeadFile(docs[k]!)) });
+      for (const d of docsToSend) files.push({ kind: d.kind, ...(await uploadLeadFile(d.file)) });
       const res = await fetch(LEAD_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, responsibility: respMode === "text" ? respText.trim() : "", files }),
+        body: JSON.stringify({ ...form, email: form.email.trim(), responsibility: respMode === "text" ? respText.trim() : "", files }),
       });
       if (!res.ok) throw new Error();
       setSent(true);
@@ -115,9 +127,9 @@ const Contacts = () => {
   const field = (k: keyof typeof form) => ({
     value: form[k],
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      const v = k === "phone" ? formatPhone(e.target.value) : e.target.value;
+      const v = k === "phone" ? formatPhone(e.target.value) : k === "inn" ? e.target.value.replace(/\D/g, "").slice(0, 12) : e.target.value;
       setForm((f) => ({ ...f, [k]: v }));
-      if (errors[k]) setErrors((er) => ({ ...er, [k]: undefined }));
+      if (errors[k as keyof Errors]) setErrors((er) => ({ ...er, [k]: undefined }));
     },
   });
 
@@ -174,12 +186,12 @@ const Contacts = () => {
                 </div>
                 <h3 className="mt-6 text-[1.75rem] font-normal tight">{c.success.thanks}, {form.name.split(" ")[0]}!</h3>
                 <p className="mt-3 max-w-sm text-muted-foreground">
-                  {c.success.textBefore} {form.phone} {c.success.textAfter}
+                  {c.success.textBefore} {form.phone} {c.success.textAfter} {form.email}
                 </p>
                 <button
                   onClick={() => {
                     setSent(false);
-                    setForm({ name: "", phone: "", object: "", service: "" });
+                    setForm(emptyForm);
                     setDocs(emptyDocs);
                     setRespText("");
                     setAgree(false);
@@ -201,6 +213,28 @@ const Contacts = () => {
                     <Label htmlFor="phone" className="mono-cap text-muted-foreground">{c.form.phone}</Label>
                     <Input id="phone" type="tel" inputMode="tel" placeholder={c.form.phonePlaceholder} className={inputCls("phone")} {...field("phone")} />
                     {errors.phone && <span className="text-sm text-destructive">{errors.phone}</span>}
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="email" className="mono-cap text-muted-foreground">{c.form.email}</Label>
+                  <Input id="email" type="email" inputMode="email" autoComplete="email" placeholder={c.form.emailPlaceholder} className={inputCls("email")} {...field("email")} />
+                  {errors.email && <span className="text-sm text-destructive">{errors.email}</span>}
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+                  <div className="grid gap-2">
+                    <Label htmlFor="company" className="mono-cap text-muted-foreground">
+                      {c.form.company} <span className="normal-case tracking-normal text-muted-foreground/70">· {c.form.optional}</span>
+                    </Label>
+                    <Input id="company" autoComplete="organization" placeholder={c.form.companyPlaceholder} className="h-12 rounded-[6px] border-input bg-card text-[1rem]" {...field("company")} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="inn" className="mono-cap text-muted-foreground">
+                      {c.form.inn} <span className="normal-case tracking-normal text-muted-foreground/70">· {c.form.optional}</span>
+                    </Label>
+                    <Input id="inn" inputMode="numeric" placeholder={c.form.innPlaceholder} className={inputCls("inn")} {...field("inn")} />
+                    {errors.inn && <span className="text-sm text-destructive">{errors.inn}</span>}
                   </div>
                 </div>
 
@@ -244,12 +278,14 @@ const Contacts = () => {
                       <DocField
                         key={k}
                         label={c.form[k]}
-                        file={docs[k]}
+                        files={docs[k]}
+                        max={MAX_PER_KIND}
                         error={errors[k]}
                         attachText={c.form.attach}
-                        replaceText={c.form.replace}
+                        addMoreText={c.form.addMore}
                         removeText={c.form.remove}
-                        onPick={pickDoc(k)}
+                        onAdd={addDocs(k)}
+                        onRemove={removeDoc(k)}
                       />
                     ))}
                   </div>
@@ -293,12 +329,14 @@ const Contacts = () => {
                     ) : (
                       <DocField
                         label=""
-                        file={docs.responsibility}
+                        files={docs.responsibility}
+                        max={MAX_PER_KIND}
                         error={errors.responsibility}
                         attachText={c.form.attach}
-                        replaceText={c.form.replace}
+                        addMoreText={c.form.addMore}
                         removeText={c.form.remove}
-                        onPick={pickDoc("responsibility")}
+                        onAdd={addDocs("responsibility")}
+                        onRemove={removeDoc("responsibility")}
                       />
                     )}
                   </div>
@@ -336,7 +374,7 @@ const Contacts = () => {
                   disabled={loading}
                   className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-[6px] bg-foreground text-[1.05rem] text-background transition-opacity hover:opacity-85 disabled:opacity-60"
                 >
-                  {loading ? (Object.values(docs).some(Boolean) ? c.form.uploading : c.form.sending) : c.form.submit}
+                  {loading ? (docsToSend.length ? c.form.uploading : c.form.sending) : c.form.submit}
                   <Icon name={loading ? "Loader2" : "ArrowRight"} size={18} className={loading ? "animate-spin" : ""} />
                 </button>
               </form>
