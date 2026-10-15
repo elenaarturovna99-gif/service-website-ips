@@ -7,10 +7,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useReveal } from "@/hooks/use-reveal";
 import { useLang } from "@/i18n/LanguageContext";
 import { reachGoal } from "@/lib/metrika";
+import { Textarea } from "@/components/ui/textarea";
+import DocField from "@/components/contacts/DocField";
+import { ALLOWED_EXT, LEAD_URL, MAX_FILE_SIZE, fileExt, uploadLeadFile } from "@/lib/uploadLeadFile";
 
-const LEAD_URL = "https://functions.poehali.dev/007dbce2-f142-404b-9a7a-7d2b0f2f3501";
-
-type Errors = Partial<Record<"name" | "phone" | "object" | "service" | "consent", string>>;
+type DocKey = "tz" | "contract" | "responsibility";
+type Errors = Partial<Record<"name" | "phone" | "object" | "service" | "consent" | DocKey, string>>;
+const emptyDocs: Record<DocKey, File | null> = { tz: null, contract: null, responsibility: null };
 
 const formatPhone = (raw: string) => {
   let d = raw.replace(/\D/g, "");
@@ -37,6 +40,16 @@ const Contacts = () => {
   const [sent, setSent] = useState(false);
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [docs, setDocs] = useState(emptyDocs);
+  const [respMode, setRespMode] = useState<"text" | "file">("text");
+  const [respText, setRespText] = useState("");
+
+  const pickDoc = (k: DocKey) => (f: File | null) => {
+    if (f && f.size > MAX_FILE_SIZE) return setErrors((er) => ({ ...er, [k]: c.errors.fileSize }));
+    if (f && !ALLOWED_EXT.includes(fileExt(f.name))) return setErrors((er) => ({ ...er, [k]: c.errors.fileType }));
+    setDocs((d) => ({ ...d, [k]: f }));
+    setErrors((er) => ({ ...er, [k]: undefined }));
+  };
 
   useEffect(() => {
     const onPick = (e: Event) => {
@@ -64,6 +77,9 @@ const Contacts = () => {
     if (form.phone.replace(/\D/g, "").length !== 11) e.phone = c.errors.phone;
     if (form.object.trim().length < 3) e.object = c.errors.object;
     if (!form.service) e.service = c.errors.service;
+    if (!docs.tz) e.tz = c.errors.tz;
+    if (!docs.contract) e.contract = c.errors.contract;
+    if (respMode === "text" ? respText.trim().length < 3 : !docs.responsibility) e.responsibility = c.errors.responsibility;
     if (!agree) e.consent = c.errors.consent;
     return e;
   };
@@ -75,10 +91,15 @@ const Contacts = () => {
     if (Object.keys(e).length || loading) return;
     setLoading(true);
     try {
+      const toSend = (Object.keys(docs) as DocKey[]).filter(
+        (k) => docs[k] && (k !== "responsibility" || respMode === "file"),
+      );
+      const files = [];
+      for (const k of toSend) files.push({ kind: k, ...(await uploadLeadFile(docs[k]!)) });
       const res = await fetch(LEAD_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, responsibility: respMode === "text" ? respText.trim() : "", files }),
       });
       if (!res.ok) throw new Error();
       setSent(true);
@@ -159,6 +180,8 @@ const Contacts = () => {
                   onClick={() => {
                     setSent(false);
                     setForm({ name: "", phone: "", object: "", service: "" });
+                    setDocs(emptyDocs);
+                    setRespText("");
                     setAgree(false);
                   }}
                   className="mono-cap mt-8 text-muted-foreground underline-offset-4 hover:underline"
@@ -211,6 +234,76 @@ const Contacts = () => {
                   {errors.service && <span className="text-sm text-destructive">{errors.service}</span>}
                 </div>
 
+                <div className="grid gap-5 rounded-[6px] border border-border p-5">
+                  <div>
+                    <div className="text-[1.05rem] tracking-[-0.01em]">{c.form.docsTitle}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{c.form.docsHint}</div>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    {(["tz", "contract"] as const).map((k) => (
+                      <DocField
+                        key={k}
+                        label={c.form[k]}
+                        file={docs[k]}
+                        error={errors[k]}
+                        attachText={c.form.attach}
+                        replaceText={c.form.replace}
+                        removeText={c.form.remove}
+                        onPick={pickDoc(k)}
+                      />
+                    ))}
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="mono-cap text-muted-foreground">
+                        {c.form.responsibility} <span className="text-destructive">*</span>
+                      </div>
+                      <div className="inline-flex rounded-[6px] border border-input bg-card p-0.5">
+                        {(["text", "file"] as const).map((m) => (
+                          <button
+                            key={m}
+                            type="button"
+                            onClick={() => {
+                              setRespMode(m);
+                              setErrors((er) => ({ ...er, responsibility: undefined }));
+                            }}
+                            className={`rounded-[4px] px-3 py-1.5 text-xs transition-colors ${
+                              respMode === m ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            {m === "text" ? c.form.modeText : c.form.modeFile}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {respMode === "text" ? (
+                      <>
+                        <Textarea
+                          value={respText}
+                          onChange={(e) => {
+                            setRespText(e.target.value);
+                            if (errors.responsibility) setErrors((er) => ({ ...er, responsibility: undefined }));
+                          }}
+                          placeholder={c.form.responsibilityPlaceholder}
+                          rows={3}
+                          className={`rounded-[6px] bg-card text-[1rem] ${errors.responsibility ? "border-destructive" : "border-input"}`}
+                        />
+                        {errors.responsibility && <span className="text-sm text-destructive">{errors.responsibility}</span>}
+                      </>
+                    ) : (
+                      <DocField
+                        label=""
+                        file={docs.responsibility}
+                        error={errors.responsibility}
+                        attachText={c.form.attach}
+                        replaceText={c.form.replace}
+                        removeText={c.form.remove}
+                        onPick={pickDoc("responsibility")}
+                      />
+                    )}
+                  </div>
+                </div>
+
                 <div className="grid gap-2">
                   <label className="flex cursor-pointer items-start gap-3 text-[0.85rem] leading-relaxed text-muted-foreground">
                     <Checkbox
@@ -233,6 +326,9 @@ const Contacts = () => {
                     </span>
                   </label>
                   {errors.consent && <span className="text-sm text-destructive">{errors.consent}</span>}
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    <span className="text-destructive">*</span> {c.form.docsNote}
+                  </p>
                 </div>
 
                 <button
@@ -240,7 +336,7 @@ const Contacts = () => {
                   disabled={loading}
                   className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-[6px] bg-foreground text-[1.05rem] text-background transition-opacity hover:opacity-85 disabled:opacity-60"
                 >
-                  {loading ? c.form.sending : c.form.submit}
+                  {loading ? (Object.values(docs).some(Boolean) ? c.form.uploading : c.form.sending) : c.form.submit}
                   <Icon name={loading ? "Loader2" : "ArrowRight"} size={18} className={loading ? "animate-spin" : ""} />
                 </button>
               </form>

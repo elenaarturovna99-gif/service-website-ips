@@ -124,7 +124,7 @@ const en: Dict = {
       {
         icon: "Award",
         title: "Permits and qualifications",
-        text: "SRO membership, a specialist listed in the National Register (NRS), Rostekhnadzor industrial safety certification. Documents available on request.",
+        text: "A specialist listed in the National Register (NRS), Rostekhnadzor industrial safety certification. Documents available on request.",
       },
       {
         icon: "Timer",
@@ -219,7 +219,6 @@ const en: Dict = {
     ],
     permitsLabel: "Permits",
     permits: [
-      "SRO membership in construction",
       "Specialist listed in the National Register (NRS)",
       "Rostekhnadzor industrial safety certification",
       "Experience at hazardous production facilities",
@@ -276,7 +275,7 @@ const en: Dict = {
   contacts: {
     label: "Contacts",
     title: "Let's discuss your project",
-    lead: "Leave a request — we'll call you back, ask a few questions and propose a solution. The initial consultation is free.",
+    lead: "Leave a request — we'll call you back, ask a few questions and propose a solution.",
     phoneLabel: "Phone",
     emailLabel: "Email",
     hoursLabel: "Working hours",
@@ -297,6 +296,19 @@ const en: Dict = {
       consentLink: "consent to personal data processing",
       consentMiddle: "and accept the",
       policyLink: "privacy policy",
+      docsTitle: "Project documents",
+      docsHint: "PDF, Word, Excel, DWG, archive or photo — up to 10 MB per file",
+      tz: "Technical specification",
+      contract: "Draft contract",
+      responsibility: "Scope of responsibility",
+      attach: "Attach file",
+      replace: "Replace",
+      remove: "Remove file",
+      modeText: "Describe in text",
+      modeFile: "Attach a file",
+      responsibilityPlaceholder: "What the client does and what the contractor does: site, materials, equipment, as-built docs, handover…",
+      docsNote: "When sending a request, please attach the minimum document set for review: technical specification, draft contract and the scope of responsibility between client and contractor.",
+      uploading: "Uploading documents…",
     },
     errors: {
       name: "Please enter your name",
@@ -304,6 +316,11 @@ const en: Dict = {
       object: "Describe the facility in a few words",
       service: "Please choose a service",
       consent: "Your consent is required",
+      tz: "Please attach the technical specification",
+      contract: "Please attach the draft contract",
+      responsibility: "Describe the scope of responsibility or attach a file",
+      fileSize: "File is larger than 10 MB",
+      fileType: "This format is not supported",
     },
     toast: {
       successTitle: "Request received",

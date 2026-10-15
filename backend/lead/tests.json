@@ -1,4 +1,6 @@
 {"tests": [
   {"name": "Пустая заявка отклоняется", "method": "POST", "path": "/", "body": {}, "expectedStatus": 400, "expectedBody": {"error": "string"}, "bodyMatcher": "partial"},
+  {"name": "Заявка без документов отклоняется", "method": "POST", "path": "/", "body": {"name": "Тест", "phone": "+7 (900) 000-00-00", "object": "Эстакада", "service": "Тест", "files": []}, "expectedStatus": 400, "expectedBody": {"error": "string"}, "bodyMatcher": "partial"},
+  {"name": "Некорректная часть файла", "method": "POST", "path": "/", "body": {"action": "upload_chunk", "upload_id": "bad", "index": 0, "data": ""}, "expectedStatus": 400, "expectedBody": {"error": "string"}, "bodyMatcher": "partial"},
   {"name": "OPTIONS", "method": "OPTIONS", "path": "/", "expectedStatus": 200}
 ]}
