@@ -2,6 +2,8 @@ import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import {componentTagger} from "pp-tagger";
+import {buildRss} from "./scripts/build-rss";
+import {buildSitemap} from "./scripts/build-sitemap";
 
 // HMR-сокет превью рвёт инфраструктура: ingress-nginx на каждом reload
 // конфига (захват/освобождение любого dev-пода) через 30 с закрывает все
@@ -100,11 +102,28 @@ const hmrKeepalive = {
     transformIndexHtml: () => [{tag: 'script', children: hmrClient, injectTo: 'head-prepend' as const}],
 };
 
+const feeds = {
+    name: 'heavyprom-feeds',
+    configureServer(server: any) {
+        server.middlewares.use((req: any, res: any, next: any) => {
+            const url = (req.url || '').split('?')[0];
+            if (url !== '/rss.xml' && url !== '/sitemap.xml') return next();
+            res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+            res.end(url === '/rss.xml' ? buildRss().xml : buildSitemap());
+        });
+    },
+    generateBundle(this: any) {
+        this.emitFile({type: 'asset', fileName: 'rss.xml', source: buildRss().xml});
+        this.emitFile({type: 'asset', fileName: 'sitemap.xml', source: buildSitemap()});
+    },
+};
+
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => ({
     plugins: [
         react(),
         hmrKeepalive,
+        feeds,
         mode === 'development' &&
         componentTagger(),
     ].filter(Boolean),

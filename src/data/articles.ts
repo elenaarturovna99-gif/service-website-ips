@@ -113,7 +113,7 @@ const articles: Article[] = [
   },
   {
     slug: "kak-vosstanovit-ispolnitelnuyu-dokumentaciyu",
-    date: "2026-10-18",
+    date: "2026-10-12",
     title: "Как восстановить исполнительную документацию, если объект уже построен или подрядчик ушёл",
     seoTitle: "Восстановление исполнительной документации: пошаговый порядок",
     description:
@@ -183,7 +183,7 @@ const articles: Article[] = [
   },
   {
     slug: "zamechaniya-k-ispolnitelnoj-dokumentacii",
-    date: "2026-10-25",
+    date: "2026-10-12",
     title: "10 частых замечаний технадзора к исполнительной документации и как их избежать",
     seoTitle: "Замечания к исполнительной документации: 10 частых ошибок",
     description:
@@ -251,7 +251,7 @@ const articles: Article[] = [
   },
   {
     slug: "elektronnaya-ispolnitelnaya-dokumentaciya",
-    date: "2026-11-01",
+    date: "2026-10-13",
     title: "Электронная исполнительная документация: форматы, подписи и как перейти без потерь",
     seoTitle: "Электронная исполнительная документация: xml, ЭЦП, форматы по 344/пр",
     description:
@@ -310,7 +310,7 @@ const articles: Article[] = [
   },
   {
     slug: "akt-osvidetelstvovaniya-skrytyh-rabot-aosr",
-    date: "2026-11-08",
+    date: "2026-10-13",
     title: "Акт освидетельствования скрытых работ (АОСР): как заполнить, чтобы его не вернули",
     seoTitle: "АОСР: как правильно заполнить акт скрытых работ — разбор по разделам",
     description:
@@ -379,7 +379,7 @@ const articles: Article[] = [
   },
   {
     slug: "ispolnitelnye-shemy-trebovaniya",
-    date: "2026-11-15",
+    date: "2026-10-14",
     title: "Исполнительные схемы: что на них должно быть и почему их возвращают",
     seoTitle: "Исполнительная схема: требования, состав, частые ошибки",
     description:
@@ -435,7 +435,7 @@ const articles: Article[] = [
   },
   {
     slug: "stroitelnyj-kontrol-zakazchika-chto-vhodit",
-    date: "2026-11-22",
+    date: "2026-10-14",
     title: "Строительный контроль со стороны заказчика: что входит и зачем его отдавать на аутсорс",
     seoTitle: "Строительный контроль заказчика: что входит, кто ведёт, аутсорсинг",
     description:
@@ -500,7 +500,7 @@ const articles: Article[] = [
   },
   {
     slug: "vhodnoj-kontrol-materialov",
-    date: "2026-11-29",
+    date: "2026-10-15",
     title: "Входной контроль материалов и оборудования: как организовать и что фиксировать",
     seoTitle: "Входной контроль строительных материалов: порядок и документы",
     description:
@@ -555,7 +555,7 @@ const articles: Article[] = [
   },
   {
     slug: "vedomost-obemov-rabot-kak-sostavit",
-    date: "2026-12-06",
+    date: "2026-10-16",
     title: "Ведомость объёмов работ: как составить ВОР, чтобы не спорить потом о деньгах",
     seoTitle: "Как составить ведомость объёмов работ (ВОР): порядок и ошибки",
     description:
@@ -608,7 +608,7 @@ const articles: Article[] = [
   },
   {
     slug: "proverka-smety-podryadchika",
-    date: "2026-12-13",
+    date: "2026-10-25",
     title: "Проверка сметы подрядчика: где чаще всего завышают стоимость",
     seoTitle: "Проверка сметы подрядчика: где завышают стоимость и как найти",
     description:
@@ -661,7 +661,7 @@ const articles: Article[] = [
   },
   {
     slug: "obshchij-zhurnal-rabot-pravila-vedeniya",
-    date: "2026-12-20",
+    date: "2026-11-01",
     title: "Общий журнал работ: правила ведения и ошибки, из-за которых его не принимают",
     seoTitle: "Общий журнал работ: как вести правильно, частые ошибки",
     description:
@@ -717,7 +717,7 @@ const articles: Article[] = [
   },
   {
     slug: "audit-ispolnitelnoj-dokumentacii-chek-list",
-    date: "2026-12-27",
+    date: "2026-11-08",
     title: "Аудит исполнительной документации перед сдачей объекта: чек-лист из 15 пунктов",
     seoTitle: "Проверка исполнительной документации перед сдачей: чек-лист",
     description:

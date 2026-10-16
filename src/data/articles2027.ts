@@ -3,7 +3,7 @@ import type { Article } from "./articles";
 const articles2027: Article[] = [
   {
     slug: "akty-otvetstvennyh-konstrukcij",
-    date: "2027-01-03",
+    date: "2026-11-15",
     title: "Акты освидетельствования ответственных конструкций: когда нужны и чем отличаются от АОСР",
     seoTitle: "Акт освидетельствования ответственных конструкций: когда оформлять",
     description:
@@ -62,7 +62,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "akty-uchastkov-setej-inzhenerno-tehnicheskogo-obespecheniya",
-    date: "2027-01-10",
+    date: "2026-11-22",
     title: "Акты освидетельствования участков сетей: что важно для наружных и внутренних сетей",
     seoTitle: "Акт освидетельствования участков сетей инженерно-технического обеспечения",
     description:
@@ -112,7 +112,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "geodezicheskaya-razbivochnaya-osnova-i-razbivka-osej",
-    date: "2027-01-17",
+    date: "2026-11-29",
     title: "Геодезическая разбивочная основа и разбивка осей: первые документы в комплекте ИД",
     seoTitle: "Акт освидетельствования ГРО и акт разбивки осей: порядок оформления",
     description:
@@ -160,7 +160,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "rabochie-chertezhi-v-proizvodstvo-rabot",
-    date: "2027-01-24",
+    date: "2026-12-06",
     title: "Рабочие чертежи с надписями о соответствии: забытый пункт исполнительной документации",
     seoTitle: "Рабочие чертежи в составе ИД: надписи о соответствии и изменениях",
     description:
@@ -208,7 +208,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "specialnye-zhurnaly-rabot",
-    date: "2027-01-31",
+    date: "2026-12-13",
     title: "Специальные журналы работ: какие нужны на промышленном объекте",
     seoTitle: "Специальные журналы работ: перечень и правила ведения",
     description:
@@ -254,7 +254,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-na-metallokonstrukcii",
-    date: "2027-02-07",
+    date: "2026-12-20",
     title: "Исполнительная документация на металлоконструкции: состав и частые замечания",
     seoTitle: "ИД на металлоконструкции: акты, схемы, сертификаты, контроль сварки",
     description:
@@ -297,7 +297,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-na-elektromontazhnye-raboty",
-    date: "2027-02-14",
+    date: "2026-12-27",
     title: "Исполнительная документация на электромонтажные работы: что входит",
     seoTitle: "ИД на электромонтажные работы: акты, протоколы измерений, схемы",
     description:
@@ -341,7 +341,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-tehnologicheskie-truboprovody",
-    date: "2027-02-21",
+    date: "2027-01-03",
     title: "Исполнительная документация на технологические трубопроводы",
     seoTitle: "ИД на технологические трубопроводы: состав, испытания, паспорт",
     description:
@@ -388,7 +388,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-ventilyaciya",
-    date: "2027-02-28",
+    date: "2027-01-10",
     title: "Исполнительная документация на вентиляцию: от монтажа до паспорта системы",
     seoTitle: "ИД на вентиляцию и кондиционирование: состав и испытания",
     description:
@@ -430,7 +430,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-zhelezobeton",
-    date: "2027-03-07",
+    date: "2027-01-17",
     title: "Исполнительная документация на монолитный железобетон: фундаменты и каркас",
     seoTitle: "ИД на железобетонные конструкции (КЖ): акты, бетон, схемы",
     description:
@@ -477,7 +477,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "nacionalnyj-reestr-specialistov-nrs",
-    date: "2027-03-14",
+    date: "2027-01-24",
     title: "Национальный реестр специалистов: кто должен в нём состоять и как это влияет на ИД",
     seoTitle: "НРС в строительстве: кому нужен и где указывается в ИД",
     description:
@@ -510,7 +510,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "prikazy-na-otvetstvennyh-lic",
-    date: "2027-03-21",
+    date: "2027-01-31",
     title: "Приказы на ответственных лиц: без них подписи в ИД ничего не стоят",
     seoTitle: "Приказы на ответственных лиц в строительстве для подписания ИД",
     description:
@@ -549,7 +549,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "autsorsing-ispolnitelnoj-dokumentacii",
-    date: "2027-03-28",
+    date: "2027-02-07",
     title: "Свой ПТО или аутсорсинг исполнительной документации: что выгоднее",
     seoTitle: "Аутсорсинг исполнительной документации: когда выгоднее своего ПТО",
     description:
@@ -596,7 +596,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-opasnye-proizvodstvennye-obekty",
-    date: "2027-04-04",
+    date: "2027-02-14",
     title: "Исполнительная документация на опасных производственных объектах: в чём особенности",
     seoTitle: "ИД на опасных производственных объектах (ОПО): особенности",
     description:
@@ -634,7 +634,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "itogovaya-proverka-gosstrojnadzora",
-    date: "2027-04-11",
+    date: "2027-02-21",
     title: "Итоговая проверка госстройнадзора: как подготовить исполнительную документацию",
     seoTitle: "Итоговая проверка стройнадзора и ЗОС: подготовка ИД",
     description:
@@ -678,7 +678,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "zamena-materialov-na-analogi",
-    date: "2027-04-18",
+    date: "2027-02-28",
     title: "Замена материалов на аналоги: как согласовать, чтобы не было проблем при приёмке",
     seoTitle: "Замена материалов на аналоги в строительстве: порядок согласования",
     description:
@@ -721,7 +721,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "otstupleniya-ot-proekta-oformlenie",
-    date: "2027-04-25",
+    date: "2027-03-07",
     title: "Отступления от проекта при строительстве: как оформить правильно",
     seoTitle: "Отступления от проекта: согласование и отражение в ИД",
     description:
@@ -760,7 +760,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-i-oplata-ks-2",
-    date: "2027-05-02",
+    date: "2027-03-14",
     title: "Как исполнительная документация связана с оплатой работ по КС-2",
     seoTitle: "Исполнительная документация и КС-2: почему без ИД не платят",
     description:
@@ -802,7 +802,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "ispolnitelnaya-dokumentaciya-slabotochnye-sistemy",
-    date: "2027-05-09",
+    date: "2027-03-21",
     title: "Исполнительная документация на слаботочные системы",
     seoTitle: "ИД на слаботочные системы: СКС, видеонаблюдение, пожарная сигнализация",
     description:
@@ -846,7 +846,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "predpisaniya-stroitelnogo-kontrolya",
-    date: "2027-05-16",
+    date: "2027-03-28",
     title: "Предписания строительного контроля: как работать с замечаниями и не затягивать",
     seoTitle: "Предписания строительного контроля: порядок устранения",
     description:
@@ -889,7 +889,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "kak-vesti-ispolnitelnuyu-dokumentaciyu-parallelno-so-strojkoj",
-    date: "2027-05-23",
+    date: "2027-04-04",
     title: "Как вести исполнительную документацию параллельно со стройкой и не отставать",
     seoTitle: "Ведение ИД параллельно со строительством: как не отставать",
     description:
@@ -933,7 +933,7 @@ const articles2027: Article[] = [
   },
   {
     slug: "peredacha-ispolnitelnoj-dokumentacii-zakazchiku",
-    date: "2027-05-30",
+    date: "2027-04-11",
     title: "Передача исполнительной документации заказчику: порядок, сроки и хранение",
     seoTitle: "Передача ИД заказчику: сроки по 344/пр, оформление и хранение",
     description:
