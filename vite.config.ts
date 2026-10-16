@@ -1,7 +1,6 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import fs from "fs";
 import {componentTagger} from "pp-tagger";
 
 // HMR-сокет превью рвёт инфраструктура: ingress-nginx на каждом reload
@@ -101,50 +100,11 @@ const hmrKeepalive = {
     transformIndexHtml: () => [{tag: 'script', children: hmrClient, injectTo: 'head-prepend' as const}],
 };
 
-const escAttr = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-
-const prerender = {
-    name: 'heavyprom-prerender',
-    apply: 'build' as const,
-    writeBundle(options: any) {
-        const dir = options.dir || path.resolve(__dirname, 'dist');
-        const source = path.resolve(__dirname, 'scripts/prerender.json');
-        const template = path.join(dir, 'index.html');
-        if (!fs.existsSync(source) || !fs.existsSync(template)) return;
-        const base = fs.readFileSync(template, 'utf-8');
-        const pages: {path: string; title: string; description: string; image?: string; html: string}[] =
-            JSON.parse(fs.readFileSync(source, 'utf-8'));
-        for (const page of pages) {
-            const url = `https://heavyprom.ru${page.path}`;
-            const title = escAttr(page.title);
-            const desc = escAttr(page.description);
-            let html = base
-                .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
-                .replace(/(<meta name="description" content=")[^"]*"/, `$1${desc}"`)
-                .replace(/(<meta property="og:title" content=")[^"]*"/, `$1${title}"`)
-                .replace(/(<meta property="og:description" content=")[^"]*"/, `$1${desc}"`)
-                .replace(/(<meta property="og:url" content=")[^"]*"/, `$1${url}"`)
-                .replace(/(<meta property="og:type" content=")[^"]*"/, `$1article"`)
-                .replace(/(<link rel="canonical" href=")[^"]*"/, `$1${url}"`)
-                .replace('<div id="root"></div>', `<div id="root"><div style="max-width:760px;margin:0 auto;padding:32px 20px;font-family:Inter,Arial,sans-serif;line-height:1.6;color:#1f2937">${page.html}</div></div>`);
-            if (page.image) {
-                html = html
-                    .replace(/(<meta property="og:image" content=")[^"]*"/, `$1${page.image}"`)
-                    .replace(/(<meta name="twitter:image" content=")[^"]*"/, `$1${page.image}"`);
-            }
-            const target = path.join(dir, page.path.replace(/^\//, ''));
-            fs.mkdirSync(target, {recursive: true});
-            fs.writeFileSync(path.join(target, 'index.html'), html);
-        }
-    },
-};
-
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => ({
     plugins: [
         react(),
         hmrKeepalive,
-        prerender,
         mode === 'development' &&
         componentTagger(),
     ].filter(Boolean),
