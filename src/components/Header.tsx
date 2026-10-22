@@ -66,7 +66,11 @@ const Header = () => {
         <a href="#top" className="flex items-center gap-3">
           <img src="/favicon.svg?v=2" alt="" className="h-8 w-8 shrink-0 rounded-[6px] md:h-9 md:w-9" />
           <span className="flex flex-col">
-            <span className="text-[1.2rem] font-medium leading-none tracking-[-0.02em] md:text-[1.45rem]">
+            <span
+              className={`text-[1.2rem] font-semibold leading-none tracking-[-0.02em] md:text-[1.45rem] hero-brand-text ${
+                solid ? "brand-shine-dark" : ""
+              }`}
+            >
               {t.brand.name}
             </span>
             <span className="mono-cap mt-1 hidden opacity-70 md:block">{t.brand.caption}</span>
@@ -86,11 +90,7 @@ const Header = () => {
           <LangSwitch />
           <a
             href="#contacts"
-            className={`rounded-[6px] border px-4 py-3 text-[1.05rem] transition-colors ${
-              solid
-                ? "border-foreground/40 hover:bg-foreground hover:text-background"
-                : "border-white/60 hover:bg-white hover:text-hero-ink"
-            }`}
+            className="brand-btn rounded-[6px] px-5 py-3 text-[1.05rem] font-medium"
           >
             {t.header.cta}
           </a>
@@ -127,7 +127,7 @@ const Header = () => {
           <a
             href="#contacts"
             onClick={() => setOpen(false)}
-            className="mt-8 flex justify-center rounded-[6px] bg-foreground py-4 text-lg text-background"
+            className="brand-btn mt-8 flex justify-center rounded-[6px] py-4 text-lg font-medium"
           >
             {t.header.cta}
           </a>

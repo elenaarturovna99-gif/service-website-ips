@@ -156,6 +156,40 @@
     animation: hero-shine 9s ease-in-out infinite alternate;
   }
 
+  .brand-shine-dark {
+    background-image: linear-gradient(
+      100deg,
+      #1d2a3d 0%,
+      #2f4f86 25%,
+      #4d86ff 50%,
+      #2f4f86 75%,
+      #1d2a3d 100%
+    );
+  }
+
+  .brand-btn {
+    color: #ffffff;
+    background: linear-gradient(135deg, #1d2a3d 0%, #2c4a7e 55%, #4d86ff 100%);
+    background-size: 160% 160%;
+    background-position: 0% 0%;
+    border: 1px solid #7fa3dc;
+    box-shadow:
+      0 6px 20px -8px rgba(29, 42, 61, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition:
+      background-position 0.5s ease,
+      box-shadow 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  .brand-btn:hover {
+    background-position: 100% 100%;
+    box-shadow:
+      0 10px 28px -8px rgba(77, 134, 255, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+  }
+
   @keyframes hero-shine {
     from {
       background-position: 0% 50%;
