@@ -19,10 +19,10 @@ const Hero = () => {
 
       <div className="absolute inset-x-0 top-[24vh] z-[2] animate-hero-in px-5 text-center md:top-[250px]">
         <h1
-          className="font-normal leading-[1.08] tight"
-          style={{ fontSize: "clamp(44px, 7.5vw, var(--hero-size-head))" }}
+          className="hero-brand font-semibold leading-[1.08] tight"
+          style={{ fontSize: "clamp(52px, 9vw, 112px)" }}
         >
-          {t.hero.title}
+          <span className="hero-brand-text">{t.hero.title}</span>
         </h1>
         <p
           className="mx-auto mt-8 max-w-[620px] leading-[1.45] text-hero-muted md:mt-11"

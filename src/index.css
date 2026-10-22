@@ -131,6 +131,46 @@
       );
   }
 
+  .hero-brand {
+    filter: drop-shadow(0 6px 28px rgba(15, 26, 48, 0.55))
+      drop-shadow(0 2px 4px rgba(15, 26, 48, 0.45));
+  }
+
+  .hero-brand-text {
+    display: inline-block;
+    padding: 0 0.04em 0.08em;
+    background: linear-gradient(
+      100deg,
+      #ffffff 0%,
+      #dbe8ff 22%,
+      #8fb6ff 45%,
+      #4d86ff 58%,
+      #a9c8ff 74%,
+      #ffffff 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: hero-shine 9s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-shine {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-brand-text {
+      animation: none;
+    }
+  }
+
   .hero-grain {
     opacity: 0.18;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
