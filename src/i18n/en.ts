@@ -30,7 +30,7 @@ const en: Dict = {
     switchLang: "Site language",
   },
   hero: {
-    title: "Documentation in order",
+    title: "HeavyProm",
     text: "As-built documentation, audits, quality control and construction supervision for industrial facilities: gas chemicals, petrochemicals, power generation, plants and utility networks.",
     scrollLabel: "To services",
     caption: "Industrial construction · Hazardous facilities · Linear infrastructure",
