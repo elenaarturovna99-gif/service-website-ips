@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const files = [
@@ -11,7 +12,17 @@ const files = [
   { file: "heavyprom-znak.svg", title: "Знак, SVG", note: "Исходник для дизайнера и типографии", dark: false },
 ];
 
-const Brand = () => (
+const Brand = () => {
+  useEffect(() => {
+    document.title = "Логотипы и брендовые материалы — ХэвиПром";
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, follow";
+    document.head.appendChild(meta);
+    return () => meta.remove();
+  }, []);
+
+  return (
   <div className="min-h-screen bg-background px-5 py-16 md:px-12">
     <div className="mx-auto max-w-6xl">
       <a href="/" className="mono-cap inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
@@ -45,5 +56,6 @@ const Brand = () => (
     </div>
   </div>
 );
+};
 
 export default Brand;
