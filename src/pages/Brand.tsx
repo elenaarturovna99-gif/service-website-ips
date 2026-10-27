@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const files = [
@@ -13,15 +12,6 @@ const files = [
 ];
 
 const Brand = () => {
-  useEffect(() => {
-    document.title = "Логотипы и брендовые материалы — ХэвиПром";
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, follow";
-    document.head.appendChild(meta);
-    return () => meta.remove();
-  }, []);
-
   return (
   <div className="min-h-screen bg-background px-5 py-16 md:px-12">
     <div className="mx-auto max-w-6xl">

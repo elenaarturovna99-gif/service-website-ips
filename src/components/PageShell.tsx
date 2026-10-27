@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import SocialLinks from "@/components/SocialLinks";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink } from "@/lib/router-compat";
 import Icon from "@/components/ui/icon";
 import ru from "@/i18n/ru";
 

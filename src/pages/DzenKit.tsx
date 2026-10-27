@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
 type Post = {
@@ -100,15 +100,6 @@ const CopyButton = ({ value, label }: { value: string; label: string }) => {
 };
 
 const DzenKit = () => {
-  useEffect(() => {
-    document.title = "Материалы для Дзена — ХэвиПром";
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, nofollow";
-    document.head.appendChild(meta);
-    return () => meta.remove();
-  }, []);
-
   return (
     <main className="min-h-screen bg-background px-5 py-12 text-foreground md:px-12">
       <div className="mx-auto max-w-4xl">

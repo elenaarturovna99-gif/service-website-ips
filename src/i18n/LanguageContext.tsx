@@ -27,7 +27,13 @@ const getInitialLang = (): Lang => {
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLangState] = useState<Lang>(getInitialLang);
+  const [lang, setLangState] = useState<Lang>("ru");
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLangState(getInitialLang());
+    setLoaded(true);
+  }, []);
 
   const setLang = useCallback((next: Lang) => {
     setLangState(next);
@@ -39,9 +45,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    if (!loaded) return;
     document.documentElement.lang = lang;
     document.title = dicts[lang].meta.title;
-  }, [lang]);
+  }, [lang, loaded]);
 
   const value = useMemo(() => ({ lang, setLang, t: dicts[lang] }), [lang, setLang]);
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import Icon from "@/components/ui/icon";
 
 const OPERATOR = "Индивидуальный предприниматель Каримова Елена Артуровна";
@@ -21,7 +21,6 @@ const Section = ({ n, title, children }: { n: string; title: string; children: R
 
 const Privacy = () => {
   useEffect(() => {
-    document.title = "Политика конфиденциальности — ХэвиПром";
     if (window.location.hash) {
       document.querySelector(window.location.hash)?.scrollIntoView();
     } else {

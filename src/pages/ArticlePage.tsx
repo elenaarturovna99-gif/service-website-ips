@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "@/lib/router-compat";
 import Icon from "@/components/ui/icon";
 import PageShell, { CtaBand, Crumbs } from "@/components/PageShell";
 import ContentBody from "@/components/ContentBody";

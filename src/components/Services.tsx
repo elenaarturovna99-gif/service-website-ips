@@ -3,7 +3,7 @@ import Icon from "@/components/ui/icon";
 import SectionHead from "@/components/SectionHead";
 import { useReveal } from "@/hooks/use-reveal";
 import { useLang } from "@/i18n/LanguageContext";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { getServiceSlug } from "@/data/servicePages";
 
 const Services = () => {

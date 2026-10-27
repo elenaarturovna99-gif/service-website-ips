@@ -1,16 +1,11 @@
 import { useEffect } from "react";
 import SocialLinks from "@/components/SocialLinks";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "@/lib/router-compat";
 import Icon from "@/components/ui/icon";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import servicePages, { getServicePage } from "@/data/servicePages";
 import ru from "@/i18n/ru";
 import { SITE_URL, faqSchema, setJsonLd } from "@/lib/jsonld";
-
-const setMeta = (selector: string, attr: string, value: string) => {
-  const el = document.querySelector(selector);
-  if (el) el.setAttribute(attr, value);
-};
 
 const ServicePage = () => {
   const { slug } = useParams();
@@ -20,22 +15,6 @@ const ServicePage = () => {
   useEffect(() => {
     if (!page) return;
     const url = `https://heavyprom.ru/uslugi/${page.slug}`;
-    const prevTitle = document.title;
-    const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    document.title = page.seoTitle;
-    document.documentElement.lang = "ru";
-    setMeta('meta[name="description"]', "content", page.description);
-    setMeta('meta[property="og:title"]', "content", page.seoTitle);
-    setMeta('meta[property="og:description"]', "content", page.description);
-    setMeta('meta[property="og:url"]', "content", url);
-    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    const prevCanonical = canonical.href;
-    canonical.href = url;
     const removeService = setJsonLd("ld-service", {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -58,9 +37,6 @@ const ServicePage = () => {
     const removeFaq = page.faq.length ? setJsonLd("ld-faq", faqSchema(page.faq)) : () => {};
     window.scrollTo(0, 0);
     return () => {
-      document.title = prevTitle;
-      setMeta('meta[name="description"]', "content", prevDesc);
-      if (canonical) canonical.href = prevCanonical;
       removeService();
       removeCrumbs();
       removeFaq();
