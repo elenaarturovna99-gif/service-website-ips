@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DzenKitRouteImport } from './routes/dzen-kit'
 import { Route as LogoRouteImport } from './routes/logo'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as KejsyIndexRouteImport } from './routes/kejsy.index'
 import { Route as KejsySlugRouteImport } from './routes/kejsy.$slug'
 import { Route as StatiIndexRouteImport } from './routes/stati.index'
@@ -37,6 +38,11 @@ const LogoRoute = LogoRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KejsyIndexRoute = KejsyIndexRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/dzen-kit': typeof DzenKitRoute
   '/logo': typeof LogoRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/kejsy/$slug': typeof KejsySlugRoute
   '/stati/$slug': typeof StatiSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/dzen-kit': typeof DzenKitRoute
   '/logo': typeof LogoRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/kejsy/$slug': typeof KejsySlugRoute
   '/stati/$slug': typeof StatiSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/dzen-kit': typeof DzenKitRoute
   '/logo': typeof LogoRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/kejsy/$slug': typeof KejsySlugRoute
   '/stati/$slug': typeof StatiSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/dzen-kit'
     | '/logo'
     | '/privacy'
+    | '/sitemap.xml'
     | '/kejsy/$slug'
     | '/stati/$slug'
     | '/uslugi/$slug'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/dzen-kit'
     | '/logo'
     | '/privacy'
+    | '/sitemap.xml'
     | '/kejsy/$slug'
     | '/stati/$slug'
     | '/uslugi/$slug'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/dzen-kit'
     | '/logo'
     | '/privacy'
+    | '/sitemap.xml'
     | '/kejsy/$slug'
     | '/stati/$slug'
     | '/uslugi/$slug'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   DzenKitRoute: typeof DzenKitRoute
   LogoRoute: typeof LogoRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   KejsySlugRoute: typeof KejsySlugRoute
   StatiSlugRoute: typeof StatiSlugRoute
   UslugiSlugRoute: typeof UslugiSlugRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kejsy/': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   DzenKitRoute: DzenKitRoute,
   LogoRoute: LogoRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   KejsySlugRoute: KejsySlugRoute,
   StatiSlugRoute: StatiSlugRoute,
   UslugiSlugRoute: UslugiSlugRoute,
