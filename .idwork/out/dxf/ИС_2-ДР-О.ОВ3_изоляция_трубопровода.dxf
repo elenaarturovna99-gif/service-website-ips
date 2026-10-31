@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461345.284664352
+2461345.4152314817
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461345.2847337965
+2461345.4153009257
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{54EDC3BB-4A30-4D7A-990E-A65EE830B152}
+{5D68CA54-BDD5-4C41-8414-1D992125E00F}
   9
 $VERSIONGUID
   2
-{3880A691-8C71-4B45-BF7B-0AEC0FC50D3B}
+{8F8DBC38-56FC-4E96-B553-91798D166319}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -144273,7 +144273,7 @@ AcDbText
  40
 1.8
   1
-Теплоизоляционные трубки из вспененного каучука с рассечкой,
+Трубка теплоизоляционная из вспененного каучука K-FLEX ST
   7
 GOST
  41
@@ -144307,7 +144307,7 @@ AcDbText
  40
 1.8
   1
-s=6 мм, для трубы %%c32х3,2
+06x035, с рассечкой, s=6 мм, для трубы %%c32х3,2
   7
 GOST
  41
@@ -144491,7 +144491,7 @@ AcDbText
  40
 1.8
   1
-Сертификат соответствия / паспорт качества № ________ (трубки из
+Сертификат соответствия № RU C-RU.ПБ09.В.00637/25 с 13.03.2025 по
   7
 GOST
  41
@@ -144525,7 +144525,7 @@ AcDbText
  40
 1.8
   1
-вспененного каучука)
+16.12.2026 (K-FLEX ST, трубки от 3 мм)
   7
 GOST
  41
@@ -148459,7 +148459,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-10-31T06:49:55.801415+00:00
+1.4.5 @ 2026-10-31T09:57:56.049621+00:00
   0
 VISUALSTYLE
   5
@@ -149171,7 +149171,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-10-31T06:50:01.856988+00:00
+1.4.5 @ 2026-10-31T09:58:02.343580+00:00
   0
 ENDSEC
   0

@@ -12,7 +12,7 @@ from openpyxl.styles import Font,Alignment,Border,Side
 OUT='/app/webapp/.idwork/out'
 for d in ['АОСР','Реестры материалов','АВК']: os.makedirs(f'{OUT}/{d}',exist_ok=True)
 SRC='/tmp/id/s'
-CERT_VALVE_ALL='Сертификат соответствия № ЕАЭС RU C-BY.НВ63.В.02472/21 с 26.06.2021 по 25.06.2026 (клапаны КЕДР-С, НЕРПА)'
+CERT_VALVE_ALL=CERT_VALVE
 
 def base_doc():
     d=Document()
