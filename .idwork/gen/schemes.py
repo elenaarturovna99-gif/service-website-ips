@@ -74,28 +74,23 @@ def scheme(sysn,kind):
             S.balloon(1,tg['ins'],(14,6)); S.balloon(2,tg['ins'],(14,-6))
     rows=materials(sysn,kind)
     # positions for valve rows: if MO2/3/4 with nerpa first then kedr - fix numbering order
-    S.text(23,106,'Ведомость применённых материалов (объём согласно КС-6а)',h=2.6,bold=True)
+    S.text(23,106,'Ведомость применённых материалов',h=2.6,bold=True)
     yb=table(S,22,104,[8,62,9,11,70,44],[r for r in rows],['Поз.','Наименование материала','Ед. изм.','Кол-во','Документ о качестве','Акт входного контроля'],h=1.8,rowh=5,headh=6)
-    # KS-6a block
-    ks=[r for r in KS[sysn] if (kind=='duct' and r[4] in ('work','valve','duct')) or (kind=='ins' and r[4]=='ins') or (kind==r[4])]
-    nx=230; ny=104
-    S.text(nx+1,106,'Объём работ по журналу КС-6а',h=2.6,bold=True)
-    yy=table(S,nx,ny,[13,140,12,20],[(f'п.{p}',n,u,q) for p,n,u,q,k in ks],['№ по КС-6а','Наименование работ','Ед.','Кол-во'],h=1.8,rowh=4.6,headh=6)
-    notes=['1. Схема выполнена на основании рабочей документации '+CODE+'-ЧТЖ07 (аксонометрия систем), изм. 2.',
-           '2. Объёмы работ и материалов приняты согласно журналу учёта выполненных работ КС-6а.',
-           '3. Отметки даны в метрах от уровня чистого пола (0,000). Размеры в мм.']
+    notes=['Схема выполнена на основании рабочей документации '+CODE+', изм. 2 (лист ЧТЖ07 «Схемы МО1, МО2, МО3, МО4, ГУ1»).',
+           'Отметки даны в метрах от уровня чистого пола (0,000). Размеры в мм.']
     if kind=='duct' and sysn in ('МО2','МО3','МО4'):
-        notes.append('4. Отводы круглого сечения, обозначенные в РД как сварные, выполнены сварными (по РД).')
+        notes.append('Отводы круглого сечения, обозначенные в РД как сварные, выполнены сварными (по РД).')
     if kind=='duct' and sysn=='МО4':
-        notes.append('5. Переход концентрический ⌀560/⌀355 исключён согласно РД (изм.) и не монтировался.')
-    if kind=='duct':
-        notes.append(f'{len(notes)+1}. Участки в теплоизоляции K-FLEX ST s=50 мм показаны зелёным пунктиром.')
+        notes.append('Переход концентрический Ø560/Ø355 исключён согласно РД (изм.) и не монтировался.')
+    if kind=='duct' and sysn!='МО4':
+        notes.append('Участки в теплоизоляции K-FLEX ST s=50 мм показаны зелёным пунктиром.')
     import textwrap
-    yN=yb-4
-    S.text(23,yN,'Примечания:',h=2.2,bold=True); yN-=3.6
-    for n in notes:
-        for j,l in enumerate(textwrap.wrap(n,150)):
-            S.text(23 if j==0 else 26,yN,l,h=1.8); yN-=3.0
+    nx=232; yN=104
+    S.text(nx,106,'Примечания:',h=2.6,bold=True); yN=101
+    for i,n in enumerate(notes,1):
+        for j,l in enumerate(textwrap.wrap(f'{i}. '+n,118)):
+            S.text(nx if j==0 else nx+3,yN,l,h=1.9); yN-=3.3
+        yN-=0.6
     sysfull=SYSNAME.get(sysn,'дренажного трубопровода')
     title=TITLE[kind].format(s=sysn)
     stamp(S,f'{CODE}-ИС{num}-{sysn}',f'Корпус приготовления флотореагентов. Местная вентиляция\nв осях {AXES[sysn]}',f'{title}\n{code} от {date} г.','ООО «Лидер»',signers=[(a,b,date) for a,b in SIGN]+[('СК Зак.','Марьин С.В.',date)])

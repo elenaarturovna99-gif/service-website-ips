@@ -1,7 +1,7 @@
 import pickle,sys
 from PIL import Image, ImageDraw
 def render(pg,box,out,s=2.0,grid=50,filt=None):
-    d=pickle.load(open(f'/tmp/id/pg{pg}.pkl','rb'))
+    d=pickle.load(open(f'/app/webapp/.idwork/pg{pg}.pkl','rb'))
     x0,y0,x1,y1=box
     im=Image.new('RGB',(int((x1-x0)*s),int((y1-y0)*s)),'white'); dr=ImageDraw.Draw(im)
     T=lambda x,y:((x-x0)*s,(y1-y)*s)

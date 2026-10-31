@@ -84,11 +84,29 @@ class Sheet:
         self.ax.add_patch(clip)
         inside=lambda q:X<=q[0]<=X+W and Y<=q[1]<=Y+H
         self.rd_text_boxes=[]
-        tb=[t['bb'] for t in d['texts'] if t['s'].strip()]
+        from glyph_labels import GL
+        tb=[t['bb'] for t in d['texts'] if t['s'].strip()]+[(g[0]-6,g[1]-2,g[2]+2,g[3]+2) for g in GL]
         def in_text(c):
             for l,b,r,tp in tb:
-                if l-1<=c[0]<=r+1 and b-1<=c[1]<=tp+1: return True
+                if l-1.5<=c[0]<=r+1.5 and b-2<=c[1]<=tp+3: return True
             return False
+        # diameter glyphs drawn as filled shapes left of numeric texts
+        dia_txt=set()
+        fills=[]
+        for p in d['paths']:
+            if p['fill'] and not p['stroke'] and cmap(p['sc'] if p['stroke'] else p['fc']) and cmap(p['fc'])[0]=='ann':
+                xs=[x for s_ in p['p'] for x,y in s_]; ys=[y for s_ in p['p'] for x,y in s_]
+                if xs: fills.append(((min(xs)+max(xs))/2,(min(ys)+max(ys))/2))
+        dia_pts=set()
+        for i,t in enumerate(d['texts']):
+            st=t['s'].strip()
+            if not st or not st[0].isdigit() or round(t['ang'])!=0: continue
+            l,b,r_,tp=t['bb']; hh=max(tp-b,4)
+            if any(o is not t and o['s'].strip() and abs(o['y']-t['y'])<1.5 and -1<t['bb'][0]-o['bb'][2]<hh*1.8 for o in d['texts']): continue
+            for f in fills:
+                if l-1.6*hh<=f[0]<=l+0.3 and b-0.4*hh<=f[1]<=tp+0.4*hh:
+                    dia_txt.add(i); dia_pts.add(f)
+        self._dia=dia_txt
         for p in d['paths']:
             subs=[s for s in p['p'] if len(s)>1]
             if not subs: continue
@@ -97,11 +115,21 @@ class Sheet:
             if not P.contains_point(c): continue
             if max(xs)-min(xs)>400 or max(ys)-min(ys)>700: continue
             col=p['sc'] if p['stroke'] else p['fc']
+            if p['fill'] and not p['stroke'] and p['fc']==(0,0,0) and max(xs)-min(xs)<9 and max(ys)-min(ys)<9:
+                if keep_text and (in_text(c) or c in dia_pts): continue
+                for s_ in subs:
+                    if len(s_)>2: groups.setdefault(('ann','#000000',0.1),[]).append([T(*q) for q in s_])
+                continue
             m=cmap(col)
+            if m and m[0]=='ann' and keep_text and max(xs)-min(xs)<8 and max(ys)-min(ys)<8 and in_text(c): continue
             if m is None: continue
             key,color,lw=m
             if p['fill'] and not p['stroke']:
-                if key=='ann' and keep_text and in_text(c): continue
+                if key=='ann':
+                    if keep_text and (in_text(c) or c in dia_pts): continue
+                    for s_ in subs:
+                        if len(s_)>2: groups.setdefault(('ann','#000000',0.1),[]).append([T(*q) for q in s_])
+                    continue
                 for s in subs:
                     if len(s)>2:
                         pg=Polygon([T(*q) for q in s],closed=True,facecolor=color,edgecolor='none',zorder=2,alpha=0.85)
@@ -116,13 +144,27 @@ class Sheet:
                 s2=[q for q in s if inside(q)]
                 if len(s2)>1: self.msp.add_lwpolyline(s2,dxfattribs={'layer':self.LMAP[key]})
         if keep_text:
-            for t in d['texts']:
+            for g in GL:
+                gx0,gy0,gx1,gy1,lab=g
+                if not P.contains_point(((gx0+gx1)/2,(gy0+gy1)/2)): continue
+                X1,Y1=T(gx0,gy0+0.3)
+                if not inside((X1,Y1)): continue
+                fs_mm=min((gx1-gx0)*k/(tw(lab) or 1),(gy1-gy0)*k*1.25,3.2)
+                self.ax.text(X1,Y1,lab,fontproperties=FontProperties(fname=CF,size=fs_mm*PT),zorder=6,ha='left',va='baseline')
+                tt=self.msp.add_text(lab.replace('Ø','%%c'),height=fs_mm*0.7,dxfattribs={'layer':'ОБОЗНАЧЕНИЯ','style':'GOST','width':0.8}); tt.set_placement((X1,Y1))
+            seen=[]
+            for ti,t in enumerate(d['texts']):
                 s=t['s'].strip()
+                if any(s==a and abs(t['x']-x)<1.5 and abs(t['y']-y)<1.5 for a,x,y in seen): continue
+                seen.append((s,t['x'],t['y']))
+                if ti in self._dia: s='Ø'+s
                 if not s or not P.contains_point((t['x'],t['y'])): continue
                 if any(dt in s for dt in drop_text): continue
-                X1,Y1=T(t['x'],t['y'])
                 st=s.replace('⌀','Ø')
                 bw=(t['bb'][2]-t['bb'][0]) if round(t['ang'])==0 else (t['bb'][3]-t['bb'][1])
+                X1,Y1=T(t['x'],t['y'])
+                if ti in self._dia:
+                    hh=t['bb'][3]-t['bb'][1]; X1-=hh*0.95*k; bw+=hh*0.95
                 w1=tw(st) or 1
                 fs_mm=min(bw*k/w1, t['h']*k*1.25, 3.2)
                 if not inside((X1,Y1)): continue

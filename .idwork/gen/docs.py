@@ -56,22 +56,22 @@ def act_meta(sysn,kind):
     ksref=', '.join('п.'+str(r[0]) for r in ks)
     S=SYSNAME.get(sysn,'')
     if kind=='duct':
-        work=f'Монтаж воздуховодов и установка воздушных клапанов {S} в КПФР ЗИФ-5 в осях {AXES[sysn]} (объём по КС-6а {ksref})'
+        work=f'Монтаж воздуховодов и установка воздушных клапанов {S} в КПФР ЗИФ-5 в осях {AXES[sysn]}'
         isname=f'Исполнительная схема {isn} монтажа воздуховодов {S} от {date} г.'
         nxt={'МО1':'Монтаж теплоизоляции воздуховодов системы МО1','МО2':'Монтаж теплоизоляции воздуховодов системы МО2','МО3':'Монтаж теплоизоляции воздуховодов системы МО3','МО4':'Пусконаладочные работы системы МО4','ГУ1':'Пусконаладочные работы системы ГУ1'}[sysn]
         avk=[AVK1,AVK2]
         start=prev_day(date,6)
     elif kind=='ins':
-        work=f'Тепловая изоляция воздуховодов {S} рулонным материалом K-FLEX ST s=50 мм с покрытием IN CLAD в КПФР ЗИФ-5 в осях {AXES[sysn]} (объём по КС-6а {ksref})'
+        work=f'Тепловая изоляция воздуховодов {S} рулонным материалом K-FLEX ST s=50 мм с покрытием IN CLAD в КПФР ЗИФ-5 в осях {AXES[sysn]}'
         isname=f'Исполнительная схема {isn} теплоизоляции воздуховодов {S} от {date} г.'
         nxt=f'Пусконаладочные работы системы {sysn}'
         avk=[AVK3]; start=prev_day(date,3)
     elif kind=='pipe':
-        work=f'Монтаж дренажного трубопровода ⌀32х3,2 из стальной трубы ВГП по ГОСТ 3262-75 с антикоррозийным покрытием в КПФР ЗИФ-5 в осях {AXES[sysn]} (объём по КС-6а {ksref})'
+        work=f'Монтаж дренажного трубопровода ⌀32х3,2 из стальной трубы ВГП по ГОСТ 3262-75 с антикоррозийным покрытием в КПФР ЗИФ-5 в осях {AXES[sysn]}'
         isname=f'Исполнительная схема {isn} монтажа дренажного трубопровода от {date} г.'
         nxt='Тепловая изоляция дренажного трубопровода'; avk=[AVK3,AVK1]; start=prev_day(date,4)
     else:
-        work=f'Тепловая изоляция дренажного трубопровода ⌀32 трубками из вспененного каучука s=6 мм в КПФР ЗИФ-5 в осях {AXES[sysn]} (объём по КС-6а {ksref})'
+        work=f'Тепловая изоляция дренажного трубопровода ⌀32 трубками из вспененного каучука s=6 мм в КПФР ЗИФ-5 в осях {AXES[sysn]}'
         isname=f'Исполнительная схема {isn} теплоизоляции дренажного трубопровода от {date} г.'
         nxt='Пусконаладочные работы систем МО2, МО3'; avk=[AVK3]; start=prev_day(date,2)
     return dict(num=num,date=date,aosr=aosr,isn=isn,isname=isname,work=work,next=nxt,avk=avk,start=start,ks=ks)
@@ -129,7 +129,7 @@ def reg_xlsx(sysn,kind,m):
     for i,l in enumerate(lines,1):
         ws.merge_cells(start_row=i,start_column=1,end_row=i,end_column=6); c=ws.cell(i,1,l); c.alignment=Alignment(horizontal='center',wrap_text=True); c.font=Font(name='Times New Roman',size=11,bold=i in (7,8))
     ws.row_dimensions[2].height=45
-    r=10; hd=['№ п/п','Наименование материалов (объём по КС-6а)','Ед. изм.','Кол-во','Сертификат или другие документы, подтверждающие качество','Акт входного контроля']
+    r=10; hd=['№ п/п','Наименование материалов','Ед. изм.','Кол-во','Сертификат или другие документы, подтверждающие качество','Акт входного контроля']
     for j,h in enumerate(hd,1):
         c=ws.cell(r,j,h); c.font=Font(name='Times New Roman',size=10,bold=True); c.alignment=Alignment(horizontal='center',vertical='center',wrap_text=True); c.border=B
     rows=materials(sysn,kind)
@@ -140,8 +140,6 @@ def reg_xlsx(sysn,kind,m):
         for j,v in enumerate(vals,1):
             c=ws.cell(r,j,v.replace('⌀','Ø')); c.font=Font(name='Times New Roman',size=10); c.alignment=Alignment(vertical='center',wrap_text=True,horizontal='center' if j in (1,3,4) else 'left'); c.border=B
         ws.row_dimensions[r].height=48
-    r+=2
-    ws.cell(r,1,'Позиции КС-6а: '+', '.join(f'п.{p} — {n} — {q} {u}' for p,n,u,q,k in m['ks'])).alignment=Alignment(wrap_text=True); ws.merge_cells(start_row=r,start_column=1,end_row=r,end_column=6); ws.row_dimensions[r].height=15*len(m['ks'])+10
     r+=2
     ws.cell(r,1,'Инженер ПТО ООО «Лидер» Колесниченко Е.А.'); ws.cell(r,5,'_______________ (подпись)')
     ws.page_setup.orientation='landscape'; ws.page_setup.paperSize=9; ws.page_setup.fitToWidth=1; ws.sheet_properties.pageSetUpPr.fitToPage=True; ws.page_setup.fitToHeight=0
