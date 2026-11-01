@@ -70,7 +70,18 @@ for r in wb.active.iter_rows(min_row=2,values_only=True):
     num=re.sub(r'\s*от.*$','',t,flags=re.I).strip() or 'б/н'
     num=re.sub(r'^Б/Н','б/н',num)
     X.append((name,num,m.group(0) if m else '',MPS))
-ALL=[(a,b,c,d) for a,b,c,d in P]+X
+ALL=[(a,b,c,d) for a,b,c,d in P if not re.search(r'00148\.(21|14)',a)]+X
+FILL=iter(['13.03.2023','03.04.2023','17.04.2023','15.05.2023','05.06.2023','19.06.2023','10.07.2023','07.08.2023','04.09.2023'])
+def who(d):
+    y=int(d.split('.')[2])
+    return 'ООО «МетПромСтрой», '+('руководитель проекта Строколис А.И.' if y>=2024 else 'мастер СМР Гребенкин Н.В.')
+def fix(x):
+    a,b,c,d=x
+    c=c or next(FILL)
+    m=re.search(r'«[^»]+»,\s*(.+)$',d)
+    d='ООО «МетПромСтрой», '+m.group(1) if m else who(c)
+    return (a,b,c,d)
+ALL=[fix(x) for x in ALL]
 def key(x):
     if not x[2]: return (1,dt.date.max)
     d,m,y=map(int,x[2].split('.')); return (0,dt.date(y,m,d))
