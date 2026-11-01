@@ -70,7 +70,7 @@ for r in wb.active.iter_rows(min_row=2,values_only=True):
     num=re.sub(r'\s*от.*$','',t,flags=re.I).strip() or 'б/н'
     num=re.sub(r'^Б/Н','б/н',num)
     X.append((name,num,m.group(0) if m else '',MPS))
-ALL=[(a,b,c,d) for a,b,c,d in P if not re.search(r'00148\.(21|14)',a)]+X
+ALL=[(a,b,c,d) for a,b,c,d in P if not re.search(r'00148\.(21|14)|ЦПТ|дробильн',a,re.I)]+X
 FILL=iter(['13.03.2023','03.04.2023','17.04.2023','15.05.2023','05.06.2023','19.06.2023','10.07.2023','07.08.2023','04.09.2023'])
 def who(d):
     y=int(d.split('.')[2])
