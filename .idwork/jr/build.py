@@ -82,6 +82,7 @@ def fix(x):
     d='ООО «МетПромСтрой», '+m.group(1) if m else who(c)
     return (a,b,c,d)
 ALL=[fix(x) for x in ALL]
+ALL=[(a,b,c,re.sub(r'^ООО «[^»]+»,\s*','',d)) for a,b,c,d in ALL]
 def key(x):
     if not x[2]: return (1,dt.date.max)
     d,m,y=map(int,x[2].split('.')); return (0,dt.date(y,m,d))
