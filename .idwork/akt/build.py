@@ -21,7 +21,7 @@ def lin(name, length, ini=None):
     return (name, r)
 
 ZIF = dict(
-    file='Акт соответствия ЗИФ-5.docx',
+    file='akt-sootvetstviya-zif5.docx',
     name=PROJ + ' ЗИФ-5',
     addr='Красноярский край, Северо-Енисейский район, месторождение «Благодатное»',
     kad='24:34:0080401:875, 24:34:0080401:1171, 24:34:0080401:1178, 24:34:0080401:1091',
@@ -61,7 +61,7 @@ ZIF = dict(
     ])
 
 DKC = dict(
-    file='Акт соответствия ДК+ЦПТ.docx',
+    file='akt-sootvetstviya-dk-cpt.docx',
     name=DK,
     addr='Красноярский край, Северо-Енисейский муниципальный округ, территория Промышленный район Благодатное, сооружение 4/6, сооружение 2/21',
     kad='24:34:0080401:1171, 24:34:0000000:2727, 24:34:0080401:1091, 24:34:0080401:875, 24:34:0080401:1152, 24:34:0080401:1178',
@@ -106,8 +106,9 @@ def build(o):
     fill_under(P[8], 'Директор проекта Борисов Игорь Александрович')
     fill_under(P[13], 'ООО НПО «ЗМК»')
     fill_under(P[20], 'АО «Полюс Красноярск»')
-    fill_under(P[22], 'Шахов Евгений Сергеевич')
-    fill_under(P[27], 'Смелых Сергей Анатольевич')
+    fill_under(P[22], 'Ведущий инженер ОСК Шахов Евгений Сергеевич')
+    fill_under(P[27], 'Главный инженер проекта Смелых Сергей Анатольевич')
+    fill_under(P[29], 'Идентификационный номер в НРС НОПРИЗ: П101791')
     fill_under(P[35], o['name'])
     fill_under(P[40], o['addr'])
     fill_under(P[44], o['kad'])
@@ -127,13 +128,14 @@ def build(o):
     R[10].text = ' г., орган, выдавший разрешение на строительство '
     R[11].text = ' ' + o['organ'] + ' '; R[12].text = ''
     R = P[50].runs
+    R[1].text = ' положительное заключение государственной экспертизы '; R[4].text = ''; R[5].text = ''; R[6].text = 'от'
     R[9].text = o['ex_day']; R[10].text = ''
     R[12].text = o['ex_month'] + ' '; R[14].text = o['ex_y']; R[15].text = ' '
     R[18].text = ' ' + o['ex_no'] + ','
     T2 = d.tables[2]
     fill_under(T2.rows[1].cells[0].paragraphs[0], 'АО «Полюс Красноярск», Директор проекта ____________ И.А. Борисов')
     fill_under(T2.rows[3].cells[0].paragraphs[0], 'ООО НПО «ЗМК» ____________')
-    fill_under(P[57], 'АО «Полюс Красноярск» ____________ Е.С. Шахов')
+    fill_under(P[57], 'АО «Полюс Красноярск», Ведущий инженер ОСК ____________ Е.С. Шахов')
     fill_under(P[62], '____________ С.А. Смелых')
 
     t0 = d.tables[0]; tbl = t0._tbl
@@ -158,6 +160,9 @@ def build(o):
         n += 1; add_title(f'{n}. {name}', False)
         for row in rows: add_data(*row)
     t1 = d.tables[1]._tbl; t1.getparent().remove(t1)
+    W='{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+    for i in (35, 49, 50):
+        for h in P[i]._p.findall('.//'+W+'highlight'): h.getparent().remove(h)
     d.save('/app/webapp/public/files/' + o['file'])
 
 for o in (ZIF, DKC): build(o)
